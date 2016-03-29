@@ -137,6 +137,8 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnLogin);
+            this.MaximumSize = new System.Drawing.Size(561, 324);
+            this.MinimumSize = new System.Drawing.Size(561, 324);
             this.Name = "frmLogin";
             this.Text = "Login";
             this.groupBox1.ResumeLayout(false);

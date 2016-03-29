@@ -74,5 +74,15 @@ namespace Lecturer
                 dept = value;
             }
         }
+
+        public void Dispose()
+        {
+            Dept = "";
+            IsAdmin = false;
+            Name = "";
+            UserID = 0;
+            UserName = "";
+            Password = "";
+        }
     }
 }
