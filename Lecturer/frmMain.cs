@@ -16,6 +16,10 @@ namespace Lecturer
     {
         static private User user = new User();
         private Connection connection = new Connection();
+        private int moduleID;
+        private List<int> MCQMarks = new List<int>();
+        private List<int> otherMarks = new List<int>();
+        private int totalMarksAvailable;
 
         internal static User User
         {
@@ -43,8 +47,8 @@ namespace Lecturer
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
-            int i = 0;
-            if (int.TryParse(node.Name, out i) && node.Parent.Name=="Result")
+            int x = 0;
+            if (int.TryParse(node.Name, out x) && node.Parent.Name=="Result")
             { 
                 DataSet dataResults = getData("SELECT Students.Name, Stud_Mod.Result " +
                                         "FROM Other_Assessments, Modules, Stud_Mod, Students " +
@@ -55,8 +59,10 @@ namespace Lecturer
 
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = dataResults.Tables[0];
+                makeAssignementsInvisible();
             } else if(node.Parent!=null && node.Parent.Name=="tnoModules")
             {
+                moduleID = Int32.Parse(node.Name);
                 DataSet dataResults = getData("SELECT * " +
                                         "FROM Modules " +
                                         "WHERE ModuleID = " + node.Name);
@@ -64,12 +70,47 @@ namespace Lecturer
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = dataResults.Tables[0];
 
+                DataSet dataResultsMCQ = getData("SELECT MCQs.NoOfQs, MCQs.MarksPerQ, " +
+                                                "MCQs.NegativeMarking, MCQs.MarksAvailable " +
+                                                "FROM MCQs, Modules " +
+                                                "WHERE MCQs.ModuleID = Modules.ModuleID " +
+                                                "AND Modules.ModuleID =" + node.Name);
+                dgvMCQ.AutoGenerateColumns = true;
+                dgvMCQ.DataSource = dataResultsMCQ.Tables[0];
+
+                DataSet dataResultsOther = getData("SELECT Other_Assessments.MarksAvailable, Other_Assessments.Type " +
+                                    "FROM Other_Assessments, Modules " +
+                                    "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
+                                    "AND Modules.ModuleID =" + node.Name);
+                dgvOther.AutoGenerateColumns = true;
+                dgvOther.DataSource = dataResultsOther.Tables[0];
+                makeAssignementsVisible();
+
+                for(int i = 0; i < dataResultsMCQ.Tables[0].Rows.Count; i++)
+                {
+                    MCQMarks.Add(Int32.Parse(dataResultsMCQ.Tables[0].Rows[i]["MarksAvailable"].ToString()));
+                }
+                for (int i = 0; i < dataResultsOther.Tables[0].Rows.Count; i++)
+                {
+                    otherMarks.Add(Int32.Parse(dataResultsOther.Tables[0].Rows[i]["MarksAvailable"].ToString()));
+                }
+                totalMarksAvailable = otherMarks.Sum() + MCQMarks.Sum();
+
+                if(totalMarksAvailable > 100)
+                {
+                    lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
+                }
+                else if (totalMarksAvailable < 100)
+                {
+                    lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
+                }
             }
         }
 
         private void treeAdmin_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
+            makeAssignementsInvisible();
             if(node.Name == "tnoStudents")
             {
                 DataSet dataResults = getData("SELECT * " +
@@ -152,6 +193,9 @@ namespace Lecturer
             treeLecturer.Nodes["tnoModules"].Nodes.Clear();
             treeAdmin.Nodes["tnoModules"].Nodes.Clear();
             treeAdmin.Nodes["tnoLecturers"].Nodes.Clear();
+            makeAssignementsInvisible();
+            MCQMarks.Clear();
+            otherMarks.Clear();
         }
 
         private void populateLecturerTree()
@@ -242,6 +286,28 @@ namespace Lecturer
             return treeConnData;
         }
 
+        private void makeAssignementsVisible()
+        {
+            lblMCQ.Visible = true;
+            lblOther.Visible = true;
+            dgvMCQ.Visible = true;
+            dgvOther.Visible = true;
+            btnAddMCQ.Visible = true;
+            btnAddOther.Visible = true;
+            lblWarning.Visible = true;
+        }
+
+        private void makeAssignementsInvisible()
+        {
+            lblMCQ.Visible = false;
+            lblOther.Visible = false;
+            dgvMCQ.Visible = false;
+            dgvOther.Visible = false;
+            btnAddMCQ.Visible = false;
+            btnAddOther.Visible = false;
+            lblWarning.Visible = false;
+        }
+
         private void calculateResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -250,13 +316,70 @@ namespace Lecturer
         private void btnAddMCQ_Click(object sender, EventArgs e)
         {
             frmAddMCQ MCQForm = new frmAddMCQ();
+            MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
+            DataSet dataResultsMCQ = getData("SELECT MCQs.NoOfQs, MCQs.MarksPerQ, " +
+                                "MCQs.NegativeMarking, MCQs.MarksAvailable " +
+                                "FROM MCQs, Modules " +
+                                "WHERE MCQs.ModuleID = Modules.ModuleID " +
+                                "AND Modules.ModuleID =" + moduleID);
+            dgvMCQ.AutoGenerateColumns = true;
+            dgvMCQ.DataSource = dataResultsMCQ.Tables[0];
+
+            for (int i = 0; i < dataResultsMCQ.Tables[0].Rows.Count; i++)
+            {
+                MCQMarks.Add(Int32.Parse(dataResultsMCQ.Tables[0].Rows[i]["MarksAvailable"].ToString()));
+            }
+            totalMarksAvailable = otherMarks.Sum() + MCQMarks.Sum();
+
+            MCQMarks.Clear();
+            if (totalMarksAvailable > 100)
+            {
+                lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
+            }
+            else if (totalMarksAvailable < 100)
+            {
+                lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
+            }
         }
 
         private void btnAddOther_Click(object sender, EventArgs e)
         {
             frmAddOther OtherForm = new frmAddOther();
+            OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
+            DataSet dataResultsOther = getData("SELECT Other_Assessments.MarksAvailable, Other_Assessments.Type " +
+                                "FROM Other_Assessments, Modules " +
+                                "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
+                                "AND Modules.ModuleID =" + moduleID);
+            dgvOther.AutoGenerateColumns = true;
+            dgvOther.DataSource = dataResultsOther.Tables[0];
+
+            otherMarks.Clear();
+            for (int i = 0; i < dataResultsOther.Tables[0].Rows.Count; i++)
+            {
+                otherMarks.Add(Int32.Parse(dataResultsOther.Tables[0].Rows[i]["MarksAvailable"].ToString()));
+            }
+            totalMarksAvailable = otherMarks.Sum() + MCQMarks.Sum();
+
+            if (totalMarksAvailable > 100)
+            {
+                lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
+            }
+            else if (totalMarksAvailable < 100)
+            {
+                lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
+            }
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer4_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -31,30 +31,32 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbType = new System.Windows.Forms.ComboBox();
             this.txtMarksAvailable = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(218, 138);
+            this.btnAdd.Location = new System.Drawing.Point(284, 138);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 13;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(137, 138);
+            this.btnCancel.Location = new System.Drawing.Point(203, 138);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // groupBox1
             // 
@@ -64,16 +66,40 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(5, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(304, 124);
+            this.groupBox1.Size = new System.Drawing.Size(367, 124);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Other assignement details";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(26, 82);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 17);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Type";
+            // 
+            // cmbType
+            // 
+            this.cmbType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbType.FormattingEnabled = true;
+            this.cmbType.Items.AddRange(new object[] {
+            "End of semester exam",
+            "Exam",
+            "Project"});
+            this.cmbType.Location = new System.Drawing.Point(188, 79);
+            this.cmbType.Name = "cmbType";
+            this.cmbType.Size = new System.Drawing.Size(166, 24);
+            this.cmbType.TabIndex = 7;
             // 
             // txtMarksAvailable
             // 
             this.txtMarksAvailable.Location = new System.Drawing.Point(188, 39);
             this.txtMarksAvailable.Name = "txtMarksAvailable";
-            this.txtMarksAvailable.Size = new System.Drawing.Size(88, 22);
+            this.txtMarksAvailable.Size = new System.Drawing.Size(166, 22);
             this.txtMarksAvailable.TabIndex = 6;
             // 
             // label3
@@ -85,32 +111,11 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Marks available (%)";
             // 
-            // cmbType
-            // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Items.AddRange(new object[] {
-            "End of semester exam",
-            "Exam",
-            "Project"});
-            this.cmbType.Location = new System.Drawing.Point(188, 79);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(88, 24);
-            this.cmbType.TabIndex = 7;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 82);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 17);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Type";
-            // 
             // frmAddOther
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 168);
+            this.ClientSize = new System.Drawing.Size(384, 168);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox1);

@@ -7,11 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Lecturer
 {
     public partial class frmAddMCQ : Form
     {
+        private int moduleID;
+        private Connection connection = new Connection();
+
+        public int ModuleID
+        {
+            get
+            {
+                return moduleID;
+            }
+
+            set
+            {
+                moduleID = value;
+            }
+        }
+
         public frmAddMCQ()
         {
             InitializeComponent();
@@ -29,7 +46,29 @@ namespace Lecturer
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            int NoOfQs = Int32.Parse(txtNoOfQs.Text);
+            int MarksPerQ = Int32.Parse(txtMarksPerQuestion.Text);
+            int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
+            Boolean NegativeMarking = chbNegativeMarking.Checked;
 
+            MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
+                                            ";Database=" + connection.DB +
+                                            ";Uid=" + connection.UID + ";" +
+                                            "Password=" + connection.Password + ";");
+
+            MySqlCommand command = conn.CreateCommand();
+            command.CommandText = "INSERT INTO MCQs (ModuleID, NoOfQs, MarksPerQ," +
+                                    "NegativeMarking, MArksAvailable) VALUES (" + ModuleID +
+                                    ", " + NoOfQs + ", " + MarksPerQ + ", " +
+                                    NegativeMarking + ", " + MarksAvailable + ")";
+            conn.Open();
+            command.ExecuteNonQuery();
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
