@@ -50,6 +50,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
+    <Compile Include="frmAddMCQ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddMCQ.Designer.cs">
+      <DependentUpon>frmAddMCQ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddOther.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddOther.Designer.cs">
+      <DependentUpon>frmAddOther.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +77,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+    <EmbeddedResource Include="frmAddMCQ.resx">
+      <DependentUpon>frmAddMCQ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddOther.resx">
+      <DependentUpon>frmAddOther.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>

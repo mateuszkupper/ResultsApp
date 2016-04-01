@@ -9,3 +9,5 @@ c:\users\mateu\documents\visual studio 2015\Projects\Lecturer\Lecturer\obj\Debug
 c:\users\mateu\documents\visual studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmMain.resources
 C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\bin\Debug\MySql.Data.dll
 C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmLogin.resources
+C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmAddMCQ.resources
+C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmAddOther.resources

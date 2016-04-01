@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode28});
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode31});
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Lecturers");
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Students");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode19});
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode22});
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Lecturers");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Students");
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.calculateResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain = new System.Windows.Forms.MenuStrip();
@@ -60,9 +60,9 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusMain = new System.Windows.Forms.StatusStrip();
             this.toolMain = new System.Windows.Forms.ToolStrip();
-            this.btnStripSave = new System.Windows.Forms.ToolStripButton();
             this.btnStripBack = new System.Windows.Forms.ToolStripButton();
             this.btnStripRedo = new System.Windows.Forms.ToolStripButton();
+            this.btnStripSave = new System.Windows.Forms.ToolStripButton();
             this.btnStripCopy = new System.Windows.Forms.ToolStripButton();
             this.btnStripPaste = new System.Windows.Forms.ToolStripButton();
             this.btnStripCut = new System.Windows.Forms.ToolStripButton();
@@ -79,7 +79,16 @@
             this.dgvMain = new System.Windows.Forms.DataGridView();
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.btnDiscard = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.dgvMCQ = new System.Windows.Forms.DataGridView();
+            this.dgvOther = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnAddMCQ = new System.Windows.Forms.Button();
+            this.btnAddOther = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolMain.SuspendLayout();
@@ -95,6 +104,16 @@
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.statusStrip3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCQ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOther)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -219,13 +238,13 @@
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(125, 26);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // statusMain
@@ -254,16 +273,6 @@
             this.toolMain.TabIndex = 2;
             this.toolMain.Text = "toolStrip1";
             // 
-            // btnStripSave
-            // 
-            this.btnStripSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnStripSave.Image = ((System.Drawing.Image)(resources.GetObject("btnStripSave.Image")));
-            this.btnStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStripSave.Name = "btnStripSave";
-            this.btnStripSave.Size = new System.Drawing.Size(44, 24);
-            this.btnStripSave.Text = "Save";
-            this.btnStripSave.Click += new System.EventHandler(this.btnStripSave_Click);
-            // 
             // btnStripBack
             // 
             this.btnStripBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -281,6 +290,16 @@
             this.btnStripRedo.Name = "btnStripRedo";
             this.btnStripRedo.Size = new System.Drawing.Size(29, 24);
             this.btnStripRedo.Text = "->";
+            // 
+            // btnStripSave
+            // 
+            this.btnStripSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnStripSave.Image = ((System.Drawing.Image)(resources.GetObject("btnStripSave.Image")));
+            this.btnStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStripSave.Name = "btnStripSave";
+            this.btnStripSave.Size = new System.Drawing.Size(44, 24);
+            this.btnStripSave.Text = "Save";
+            this.btnStripSave.Click += new System.EventHandler(this.btnStripSave_Click);
             // 
             // btnStripCopy
             // 
@@ -324,8 +343,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.Window;
-            this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Panel2.Controls.Add(this.dgvMain);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip3);
             this.splitContainer1.Panel2.Enabled = false;
             this.splitContainer1.Size = new System.Drawing.Size(984, 501);
@@ -389,16 +407,16 @@
             this.treeLecturer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeLecturer.Location = new System.Drawing.Point(3, 31);
             this.treeLecturer.Name = "treeLecturer";
-            treeNode28.Name = "tnoModulesResults";
-            treeNode28.Text = "Modules";
-            treeNode29.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode29.Name = "tnoResults";
-            treeNode29.Text = "Results";
-            treeNode30.Name = "tnoModules";
-            treeNode30.Text = "Modules";
+            treeNode19.Name = "tnoModulesResults";
+            treeNode19.Text = "Modules";
+            treeNode20.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode20.Name = "tnoResults";
+            treeNode20.Text = "Results";
+            treeNode21.Name = "tnoModules";
+            treeNode21.Text = "Modules";
             this.treeLecturer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode29,
-            treeNode30});
+            treeNode20,
+            treeNode21});
             this.treeLecturer.Size = new System.Drawing.Size(414, 179);
             this.treeLecturer.TabIndex = 0;
             this.treeLecturer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -441,15 +459,15 @@
             this.treeView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(16, -243);
             this.treeView1.Name = "treeView1";
-            treeNode31.Name = "tnoModulesResults";
-            treeNode31.Text = "Modules";
-            treeNode32.Name = "tnoResults";
-            treeNode32.Text = "Results";
-            treeNode33.Name = "tnoModules";
-            treeNode33.Text = "Modules";
+            treeNode22.Name = "tnoModulesResults";
+            treeNode22.Text = "Modules";
+            treeNode23.Name = "tnoResults";
+            treeNode23.Text = "Results";
+            treeNode24.Name = "tnoModules";
+            treeNode24.Text = "Modules";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode32,
-            treeNode33});
+            treeNode23,
+            treeNode24});
             this.treeView1.Size = new System.Drawing.Size(189, 165);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -461,16 +479,16 @@
             this.treeAdmin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeAdmin.Location = new System.Drawing.Point(1, 31);
             this.treeAdmin.Name = "treeAdmin";
-            treeNode34.Name = "tnoModules";
-            treeNode34.Text = "Modules";
-            treeNode35.Name = "tnoLecturers";
-            treeNode35.Text = "Lecturers";
-            treeNode36.Name = "tnoStudents";
-            treeNode36.Text = "Students";
+            treeNode25.Name = "tnoModules";
+            treeNode25.Text = "Modules";
+            treeNode26.Name = "tnoLecturers";
+            treeNode26.Text = "Lecturers";
+            treeNode27.Name = "tnoStudents";
+            treeNode27.Text = "Students";
             this.treeAdmin.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode34,
-            treeNode35,
-            treeNode36});
+            treeNode25,
+            treeNode26,
+            treeNode27});
             this.treeAdmin.Size = new System.Drawing.Size(477, 246);
             this.treeAdmin.TabIndex = 1;
             this.treeAdmin.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeAdmin_AfterSelect);
@@ -479,10 +497,10 @@
             // 
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMain.Location = new System.Drawing.Point(0, 28);
+            this.dgvMain.Location = new System.Drawing.Point(0, 0);
             this.dgvMain.Name = "dgvMain";
             this.dgvMain.RowTemplate.Height = 24;
-            this.dgvMain.Size = new System.Drawing.Size(748, 471);
+            this.dgvMain.Size = new System.Drawing.Size(381, 212);
             this.dgvMain.TabIndex = 2;
             // 
             // statusStrip3
@@ -494,7 +512,7 @@
             this.toolStripStatusLabel3});
             this.statusStrip3.Location = new System.Drawing.Point(0, 0);
             this.statusStrip3.Name = "statusStrip3";
-            this.statusStrip3.Size = new System.Drawing.Size(748, 28);
+            this.statusStrip3.Size = new System.Drawing.Size(750, 28);
             this.statusStrip3.TabIndex = 1;
             this.statusStrip3.Text = "statusStrip3";
             // 
@@ -506,14 +524,121 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(46, 23);
             this.toolStripStatusLabel3.Text = "Data";
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.splitContainer4);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.btnAddOther);
+            this.splitContainer3.Panel2.Controls.Add(this.btnAddMCQ);
+            this.splitContainer3.Panel2.Controls.Add(this.label2);
+            this.splitContainer3.Panel2.Controls.Add(this.label1);
+            this.splitContainer3.Panel2.Controls.Add(this.dgvOther);
+            this.splitContainer3.Panel2.Controls.Add(this.dgvMCQ);
+            this.splitContainer3.Size = new System.Drawing.Size(750, 473);
+            this.splitContainer3.SplitterDistance = 214;
+            this.splitContainer3.TabIndex = 3;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.dgvMain);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.btnSave);
+            this.splitContainer4.Panel2.Controls.Add(this.btnDiscard);
+            this.splitContainer4.Size = new System.Drawing.Size(748, 212);
+            this.splitContainer4.SplitterDistance = 381;
+            this.splitContainer4.TabIndex = 3;
+            // 
+            // btnDiscard
+            // 
+            this.btnDiscard.Location = new System.Drawing.Point(21, 94);
+            this.btnDiscard.Name = "btnDiscard";
+            this.btnDiscard.Size = new System.Drawing.Size(88, 50);
+            this.btnDiscard.TabIndex = 0;
+            this.btnDiscard.Text = "Discard Changes";
+            this.btnDiscard.UseVisualStyleBackColor = true;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(21, 58);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(88, 23);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // dgvMCQ
+            // 
+            this.dgvMCQ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMCQ.Location = new System.Drawing.Point(13, 27);
+            this.dgvMCQ.Name = "dgvMCQ";
+            this.dgvMCQ.RowTemplate.Height = 24;
+            this.dgvMCQ.Size = new System.Drawing.Size(344, 183);
+            this.dgvMCQ.TabIndex = 0;
+            // 
+            // dgvOther
+            // 
+            this.dgvOther.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOther.Location = new System.Drawing.Point(382, 27);
+            this.dgvOther.Name = "dgvOther";
+            this.dgvOther.RowTemplate.Height = 24;
+            this.dgvOther.Size = new System.Drawing.Size(313, 183);
+            this.dgvOther.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(108, 8);
+            this.label1.Location = new System.Drawing.Point(10, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "label1";
+            this.label1.TabIndex = 2;
+            this.label1.Text = "MCQs";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(379, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(136, 17);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Other Assignements";
+            // 
+            // btnAddMCQ
+            // 
+            this.btnAddMCQ.Location = new System.Drawing.Point(13, 217);
+            this.btnAddMCQ.Name = "btnAddMCQ";
+            this.btnAddMCQ.Size = new System.Drawing.Size(75, 23);
+            this.btnAddMCQ.TabIndex = 4;
+            this.btnAddMCQ.Text = "+";
+            this.btnAddMCQ.UseVisualStyleBackColor = true;
+            this.btnAddMCQ.Click += new System.EventHandler(this.btnAddMCQ_Click);
+            // 
+            // btnAddOther
+            // 
+            this.btnAddOther.Location = new System.Drawing.Point(382, 217);
+            this.btnAddOther.Name = "btnAddOther";
+            this.btnAddOther.Size = new System.Drawing.Size(75, 23);
+            this.btnAddOther.TabIndex = 5;
+            this.btnAddOther.Text = "+";
+            this.btnAddOther.UseVisualStyleBackColor = true;
+            this.btnAddOther.Click += new System.EventHandler(this.btnAddOther_Click);
             // 
             // frmMain
             // 
@@ -551,6 +676,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
             this.statusStrip3.ResumeLayout(false);
             this.statusStrip3.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMCQ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOther)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -596,7 +732,16 @@
         private System.Windows.Forms.ToolStripMenuItem logInToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem calculateResultsToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnDiscard;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView dgvOther;
+        private System.Windows.Forms.DataGridView dgvMCQ;
+        private System.Windows.Forms.Button btnAddOther;
+        private System.Windows.Forms.Button btnAddMCQ;
     }
 }
 

@@ -43,20 +43,59 @@ namespace Lecturer
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
-            DataSet dataResults = getData("SELECT Students.Name, Stud_Mod.Result " +
+            int i = 0;
+            if (int.TryParse(node.Name, out i) && node.Parent.Name=="Result")
+            { 
+                DataSet dataResults = getData("SELECT Students.Name, Stud_Mod.Result " +
                                         "FROM Other_Assessments, Modules, Stud_Mod, Students " +
                                         "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
                                         "AND Modules.ModuleID = Stud_Mod.ModuleID " +
                                         "AND Stud_Mod.StudentID = Students.StudentID " +
                                         "AND Other_Assessments.AssessmentID = " + node.Name);
 
-            dgvMain.AutoGenerateColumns = true;
-            dgvMain.DataSource = dataResults.Tables[0];
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataResults.Tables[0];
+            } else if(node.Parent!=null && node.Parent.Name=="tnoModules")
+            {
+                DataSet dataResults = getData("SELECT * " +
+                                        "FROM Modules " +
+                                        "WHERE ModuleID = " + node.Name);
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataResults.Tables[0];
+
+            }
         }
 
         private void treeAdmin_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            TreeNode node = e.Node;
+            if(node.Name == "tnoStudents")
+            {
+                DataSet dataResults = getData("SELECT * " +
+                                        "FROM Students");
 
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataResults.Tables[0];
+            }
+            else if(node.Parent != null && node.Parent.Name == "tnoModules")
+            {
+                DataSet dataResults = getData("SELECT * " +
+                                        "FROM Modules " +
+                                        "WHERE ModuleID=" + node.Name);
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataResults.Tables[0];
+            }
+            else if(node.Parent != null && node.Parent.Name =="tnoLecturers")
+            {
+                DataSet dataResults = getData("SELECT * " +
+                                        "FROM Lecturers " +
+                                        "WHERE LecturerID=" + node.Name);
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataResults.Tables[0];
+            }
         }
 
         private void btnStripSave_Click(object sender, EventArgs e)
@@ -136,7 +175,7 @@ namespace Lecturer
                     TreeNode nodeLecturer;
                     nodeLecturer = treeLecturer.Nodes["tnoResults"].Nodes["tnoModulesResults"].Nodes.
                         Add(rowModules["Code"].ToString() + " - " + rowModules["Name"].ToString());
-                    //nodeLecturer.Name = rowModules["ModuleID"].ToString();
+                    nodeLecturer.Name = "Result";
                     foreach (DataTable tableResults in treeConnDataExams.Tables)
                     {
                         foreach (DataRow rowResults in tableResults.Rows)
@@ -206,6 +245,18 @@ namespace Lecturer
         private void calculateResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAddMCQ_Click(object sender, EventArgs e)
+        {
+            frmAddMCQ MCQForm = new frmAddMCQ();
+            MCQForm.ShowDialog();
+        }
+
+        private void btnAddOther_Click(object sender, EventArgs e)
+        {
+            frmAddOther OtherForm = new frmAddOther();
+            OtherForm.ShowDialog();
         }
     }
 }
