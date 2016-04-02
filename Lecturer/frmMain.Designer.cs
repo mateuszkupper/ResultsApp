@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Lecturers");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Students");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode19});
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode22});
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Lecturers");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Students");
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.calculateResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain = new System.Windows.Forms.MenuStrip();
@@ -81,6 +81,7 @@
             this.dgvMain = new System.Windows.Forms.DataGridView();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDiscard = new System.Windows.Forms.Button();
+            this.lblWarning = new System.Windows.Forms.Label();
             this.btnAddOther = new System.Windows.Forms.Button();
             this.btnAddMCQ = new System.Windows.Forms.Button();
             this.lblOther = new System.Windows.Forms.Label();
@@ -89,7 +90,6 @@
             this.dgvMCQ = new System.Windows.Forms.DataGridView();
             this.statusStrip3 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblWarning = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolMain.SuspendLayout();
@@ -408,17 +408,17 @@
             this.treeLecturer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeLecturer.Location = new System.Drawing.Point(3, 31);
             this.treeLecturer.Name = "treeLecturer";
-            treeNode10.Name = "tnoModulesResults";
-            treeNode10.Text = "Modules";
-            treeNode11.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode11.Name = "tnoResults";
-            treeNode11.Text = "Results";
-            treeNode12.Name = "tnoModules";
-            treeNode12.Text = "Modules";
+            treeNode19.Name = "tnoModulesResults";
+            treeNode19.Text = "Modules";
+            treeNode20.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode20.Name = "tnoResults";
+            treeNode20.Text = "Results";
+            treeNode21.Name = "tnoModules";
+            treeNode21.Text = "Modules";
             this.treeLecturer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode12});
-            this.treeLecturer.Size = new System.Drawing.Size(414, 179);
+            treeNode20,
+            treeNode21});
+            this.treeLecturer.Size = new System.Drawing.Size(414, 296);
             this.treeLecturer.TabIndex = 0;
             this.treeLecturer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -460,15 +460,15 @@
             this.treeView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(16, -243);
             this.treeView1.Name = "treeView1";
-            treeNode13.Name = "tnoModulesResults";
-            treeNode13.Text = "Modules";
-            treeNode14.Name = "tnoResults";
-            treeNode14.Text = "Results";
-            treeNode15.Name = "tnoModules";
-            treeNode15.Text = "Modules";
+            treeNode22.Name = "tnoModulesResults";
+            treeNode22.Text = "Modules";
+            treeNode23.Name = "tnoResults";
+            treeNode23.Text = "Results";
+            treeNode24.Name = "tnoModules";
+            treeNode24.Text = "Modules";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode14,
-            treeNode15});
+            treeNode23,
+            treeNode24});
             this.treeView1.Size = new System.Drawing.Size(189, 165);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -480,17 +480,17 @@
             this.treeAdmin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeAdmin.Location = new System.Drawing.Point(1, 31);
             this.treeAdmin.Name = "treeAdmin";
-            treeNode16.Name = "tnoModules";
-            treeNode16.Text = "Modules";
-            treeNode17.Name = "tnoLecturers";
-            treeNode17.Text = "Lecturers";
-            treeNode18.Name = "tnoStudents";
-            treeNode18.Text = "Students";
+            treeNode25.Name = "tnoModules";
+            treeNode25.Text = "Modules";
+            treeNode26.Name = "tnoLecturers";
+            treeNode26.Text = "Lecturers";
+            treeNode27.Name = "tnoStudents";
+            treeNode27.Text = "Students";
             this.treeAdmin.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode16,
-            treeNode17,
-            treeNode18});
-            this.treeAdmin.Size = new System.Drawing.Size(477, 246);
+            treeNode25,
+            treeNode26,
+            treeNode27});
+            this.treeAdmin.Size = new System.Drawing.Size(477, 325);
             this.treeAdmin.TabIndex = 1;
             this.treeAdmin.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeAdmin_AfterSelect);
             // 
@@ -540,6 +540,7 @@
             // 
             // dgvMain
             // 
+            this.dgvMain.AllowUserToAddRows = false;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMain.Location = new System.Drawing.Point(0, 0);
@@ -556,6 +557,7 @@
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnDiscard
             // 
@@ -565,6 +567,15 @@
             this.btnDiscard.TabIndex = 0;
             this.btnDiscard.Text = "Discard Changes";
             this.btnDiscard.UseVisualStyleBackColor = true;
+            // 
+            // lblWarning
+            // 
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblWarning.Location = new System.Drawing.Point(13, 247);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(0, 17);
+            this.lblWarning.TabIndex = 6;
             // 
             // btnAddOther
             // 
@@ -610,6 +621,7 @@
             // 
             // dgvOther
             // 
+            this.dgvOther.AllowUserToAddRows = false;
             this.dgvOther.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOther.Location = new System.Drawing.Point(610, 27);
             this.dgvOther.Name = "dgvOther";
@@ -617,9 +629,13 @@
             this.dgvOther.Size = new System.Drawing.Size(338, 183);
             this.dgvOther.TabIndex = 1;
             this.dgvOther.Visible = false;
+            this.dgvOther.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOther_CellContentClick);
+            this.dgvOther.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOther_CellValueChanged);
+            this.dgvOther.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvOther_RowsRemoved);
             // 
             // dgvMCQ
             // 
+            this.dgvMCQ.AllowUserToAddRows = false;
             this.dgvMCQ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMCQ.Location = new System.Drawing.Point(13, 27);
             this.dgvMCQ.Name = "dgvMCQ";
@@ -627,6 +643,9 @@
             this.dgvMCQ.Size = new System.Drawing.Size(591, 183);
             this.dgvMCQ.TabIndex = 0;
             this.dgvMCQ.Visible = false;
+            this.dgvMCQ.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMCQ_CellContentClick);
+            this.dgvMCQ.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMCQ_CellValueChanged);
+            this.dgvMCQ.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvMCQ_RowsRemoved);
             // 
             // statusStrip3
             // 
@@ -648,15 +667,6 @@
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(46, 23);
             this.toolStripStatusLabel3.Text = "Data";
-            // 
-            // lblWarning
-            // 
-            this.lblWarning.AutoSize = true;
-            this.lblWarning.ForeColor = System.Drawing.Color.Red;
-            this.lblWarning.Location = new System.Drawing.Point(13, 247);
-            this.lblWarning.Name = "lblWarning";
-            this.lblWarning.Size = new System.Drawing.Size(0, 17);
-            this.lblWarning.TabIndex = 6;
             // 
             // frmMain
             // 

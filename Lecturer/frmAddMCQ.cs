@@ -51,7 +51,13 @@ namespace Lecturer
             int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
             Boolean NegativeMarking = chbNegativeMarking.Checked;
 
-            MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
+            //frmMain.MCQRownull, ModuleID, NoOfQs, MarksPerQ, NegativeMarking, MarksAvailable;
+            frmMain.MCQRow["ModuleID"] = ModuleID;
+            frmMain.MCQRow["NoOfQs"] = NoOfQs;
+            frmMain.MCQRow["MarksPerQ"] = MarksPerQ;
+            frmMain.MCQRow["NegativeMarking"] = NegativeMarking;
+            frmMain.MCQRow["MarksAvailable"] = MarksAvailable;
+            /*MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
                                             ";Database=" + connection.DB +
                                             ";Uid=" + connection.UID + ";" +
                                             "Password=" + connection.Password + ";");
@@ -62,7 +68,9 @@ namespace Lecturer
                                     ", " + NoOfQs + ", " + MarksPerQ + ", " +
                                     NegativeMarking + ", " + MarksAvailable + ")";
             conn.Open();
-            command.ExecuteNonQuery();
+            command.ExecuteNonQuery();*/
+
+            //frmMain.dgv
             this.Close();
         }
 
