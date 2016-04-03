@@ -121,11 +121,20 @@ AND Modules.ModuleID = Stud_Mod.ModuleID
 AND Modules.ModuleID =1*/
 
 
-                dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, MCQs_Results.NoOfCorrectQs " +
+                /*
+                SELECT MCQs_Results.NoOfCorrectQs
+                FROM MCQs_Results
+                WHERE MCQ_Results.MCQID = node.Name
+
+
+                */
+                dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.* " +
+                                                "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID " +
                                                 "FROM MCQs_Results " +
-                                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = MCQs_Results.StudentID " +
-                                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name +
-                                                " OR MCQs_Results.MCQID IS NULL", "dataResultsAssessments");
+                                                "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
+                                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
+                                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name
+                                                , "dataResultsAssessments");
 
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataResultsAssessments"];
