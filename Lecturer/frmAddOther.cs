@@ -49,16 +49,9 @@ namespace Lecturer
                 Type = "EndOfSemester";
             }
 
-            MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
-                                            ";Database=" + connection.DB +
-                                            ";Uid=" + connection.UID + ";" +
-                                            "Password=" + connection.Password + ";");
-
-            MySqlCommand command = conn.CreateCommand();
-            command.CommandText = "INSERT INTO Other_Assessments (ModuleID, MarksAvailable, Type) VALUES (" 
-                                    + ModuleID + ", " + MarksAvailable + ", '" + Type + "')";
-            conn.Open();
-            command.ExecuteNonQuery();
+            frmMain.OtherRow["ModuleID"] = ModuleID;
+            frmMain.OtherRow["Type"] = Type;
+            frmMain.OtherRow["MarksAvailable"] = MarksAvailable;
             this.Close();
         }
 

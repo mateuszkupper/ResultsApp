@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode19});
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
-            treeNode22});
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Modules");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Lecturers");
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Students");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Results", new System.Windows.Forms.TreeNode[] {
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Modules");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Lecturers");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Students");
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.calculateResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain = new System.Windows.Forms.MenuStrip();
@@ -408,16 +408,16 @@
             this.treeLecturer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeLecturer.Location = new System.Drawing.Point(3, 31);
             this.treeLecturer.Name = "treeLecturer";
-            treeNode19.Name = "tnoModulesResults";
-            treeNode19.Text = "Modules";
-            treeNode20.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode20.Name = "tnoResults";
-            treeNode20.Text = "Results";
-            treeNode21.Name = "tnoModules";
-            treeNode21.Text = "Modules";
+            treeNode10.Name = "tnoModulesResults";
+            treeNode10.Text = "Modules";
+            treeNode11.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode11.Name = "tnoResults";
+            treeNode11.Text = "Results";
+            treeNode12.Name = "tnoModules";
+            treeNode12.Text = "Modules";
             this.treeLecturer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode20,
-            treeNode21});
+            treeNode11,
+            treeNode12});
             this.treeLecturer.Size = new System.Drawing.Size(414, 296);
             this.treeLecturer.TabIndex = 0;
             this.treeLecturer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -460,15 +460,15 @@
             this.treeView1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(16, -243);
             this.treeView1.Name = "treeView1";
-            treeNode22.Name = "tnoModulesResults";
-            treeNode22.Text = "Modules";
-            treeNode23.Name = "tnoResults";
-            treeNode23.Text = "Results";
-            treeNode24.Name = "tnoModules";
-            treeNode24.Text = "Modules";
+            treeNode13.Name = "tnoModulesResults";
+            treeNode13.Text = "Modules";
+            treeNode14.Name = "tnoResults";
+            treeNode14.Text = "Results";
+            treeNode15.Name = "tnoModules";
+            treeNode15.Text = "Modules";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode23,
-            treeNode24});
+            treeNode14,
+            treeNode15});
             this.treeView1.Size = new System.Drawing.Size(189, 165);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -480,16 +480,16 @@
             this.treeAdmin.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeAdmin.Location = new System.Drawing.Point(1, 31);
             this.treeAdmin.Name = "treeAdmin";
-            treeNode25.Name = "tnoModules";
-            treeNode25.Text = "Modules";
-            treeNode26.Name = "tnoLecturers";
-            treeNode26.Text = "Lecturers";
-            treeNode27.Name = "tnoStudents";
-            treeNode27.Text = "Students";
+            treeNode16.Name = "tnoModules";
+            treeNode16.Text = "Modules";
+            treeNode17.Name = "tnoLecturers";
+            treeNode17.Text = "Lecturers";
+            treeNode18.Name = "tnoStudents";
+            treeNode18.Text = "Students";
             this.treeAdmin.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode25,
-            treeNode26,
-            treeNode27});
+            treeNode16,
+            treeNode17,
+            treeNode18});
             this.treeAdmin.Size = new System.Drawing.Size(477, 325);
             this.treeAdmin.TabIndex = 1;
             this.treeAdmin.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeAdmin_AfterSelect);
@@ -551,6 +551,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(21, 58);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 23);
@@ -567,6 +568,7 @@
             this.btnDiscard.TabIndex = 0;
             this.btnDiscard.Text = "Discard Changes";
             this.btnDiscard.UseVisualStyleBackColor = true;
+            this.btnDiscard.Click += new System.EventHandler(this.btnDiscard_Click);
             // 
             // lblWarning
             // 

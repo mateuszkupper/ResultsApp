@@ -90,15 +90,42 @@ namespace Lecturer
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
+            TreeNode parent = node.Parent;
             int x = 0;
-            if (int.TryParse(node.Name, out x) && node.Parent.Name=="Result")
+            if (int.TryParse(node.Name, out x) && parent.Parent.Name=="tnoModulesResults" && node.Text != "MCQ")
             { 
-                dataResultsAssessments = getData("SELECT Students.Name, Stud_Mod.Result " +
-                                        "FROM Other_Assessments, Modules, Stud_Mod, Students " +
-                                        "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
-                                        "AND Modules.ModuleID = Stud_Mod.ModuleID " +
-                                        "AND Stud_Mod.StudentID = Students.StudentID " +
+                dataResultsAssessments = getData("SELECT Students.Name, Students.StudentID, Other_Assessments_Results.Result " +
+                                        "FROM Other_Assessments, Other_Assessments_Results, Students " +
+                                        "WHERE Other_Assessments_Results.AssessmentID = Other_Assessments.AssessmentID " +
+                                        "AND Other_Assessments_Results.StudentID = Students.StudentID " +
                                         "AND Other_Assessments.AssessmentID = " + node.Name, "dataResultsAssessments");
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = bindingSources["dataResultsAssessments"];
+                makeAssignementsInvisible();
+            }
+            else if(int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
+            {
+                /*dataResultsAssessments = getData("SELECT Students.Name, Students.StudentID, MCQs_Results.NoOfCorrectQs, " +
+                                        "MCQs_Results.NoOfIncorrectQs, MCQs_Results.NoOfNotAnsweredQs " +
+                                        "FROM MCQs, MCQs_Results, Students " +
+                                        "WHERE MCQs_Results.MCQID = MCQs.MCQID " +
+                                        "AND MCQs_Results.StudentID = Students.StudentID " +
+                                        "AND MCQs.MCQID = " + node.Name, "dataResultsAssessments");
+
+                SELECT MCQs_Results.StudentID, MCQs_Results.NoOfCorrectQs
+FROM MCQs_Results, MCQs, Stud_Mod, Modules
+WHERE MCQs_Results.MCQID = MCQs.MCQID
+AND MCQs.ModuleID = Modules.ModuleID
+AND Modules.ModuleID = Stud_Mod.ModuleID
+AND Modules.ModuleID =1*/
+
+
+                dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, MCQs_Results.NoOfCorrectQs " +
+                                                "FROM MCQs_Results " +
+                                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = MCQs_Results.StudentID " +
+                                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name +
+                                                " OR MCQs_Results.MCQID IS NULL", "dataResultsAssessments");
 
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataResultsAssessments"];
@@ -107,30 +134,7 @@ namespace Lecturer
             else if(node.Parent!=null && node.Parent.Name=="tnoModules")
             {
                 moduleID = Int32.Parse(node.Name);
-                dataModule = getData("SELECT * " +
-                                        "FROM Modules " +
-                                        "WHERE ModuleID = " + node.Name, "dataModule");
-
-                dgvMain.AutoGenerateColumns = true;
-                dgvMain.DataSource = bindingSources["dataModule"];
-
-                dataModuleMCQ = getData("SELECT MCQs.ModuleID, MCQs.MCQID, MCQs.NoOfQs, MCQs.MarksPerQ, " +
-                                                "MCQs.NegativeMarking, MCQs.MarksAvailable " +
-                                                "FROM MCQs, Modules " +
-                                                "WHERE MCQs.ModuleID = Modules.ModuleID " +
-                                                "AND Modules.ModuleID =" + node.Name, "dataModuleMCQ");
-                dgvMCQ.AutoGenerateColumns = true;
-                dgvMCQ.DataSource = bindingSources["dataModuleMCQ"];
-
-                dataModuleOther = getData("SELECT Other_Assessments.MarksAvailable, Other_Assessments.Type " +
-                                    "FROM Other_Assessments, Modules " +
-                                    "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
-                                    "AND Modules.ModuleID =" + node.Name, "dataModuleOther");
-                dgvOther.AutoGenerateColumns = true;
-                dgvOther.DataSource = bindingSources["dataModuleOther"];
-                makeAssignementsVisible();
-
-                checkTotalMarksAvailable();
+                refreshModuleDetails();
             }
         }
 
@@ -251,20 +255,34 @@ namespace Lecturer
                                 "AND Lec_Mod.ModuleID = Modules.ModuleID " +
                                 "AND Modules.ModuleID = Other_Assessments.ModuleID " +
                                 "AND Lecturers.LecturerID = " + user.UserID, "treeLExams");
-
+            DataTable treeConnDataMCQs = getData("SELECT MCQs.MCQID, Modules.Code " +
+                                                "FROM Lecturers, Lec_Mod, Modules, MCQs " +
+                                                "WHERE Lecturers.LecturerID = Lec_Mod.LecturerID " +
+                                                "AND Lec_Mod.ModuleID = Modules.ModuleID " +
+                                                "AND Modules.ModuleID = MCQs.ModuleID " +
+                                                "AND Lecturers.LecturerID = " + user.UserID, "treeLMCQs");
 
                 foreach (DataRow rowModules in treeConnDataModules.Rows)
                 {
                     TreeNode nodeLecturer;
                     nodeLecturer = treeLecturer.Nodes["tnoResults"].Nodes["tnoModulesResults"].Nodes.
                         Add(rowModules["Code"].ToString() + " - " + rowModules["Name"].ToString());
-                    nodeLecturer.Name = "Result";
+                    nodeLecturer.Name = rowModules["ModuleID"].ToString();
                         foreach (DataRow rowResults in treeConnDataExams.Rows)
                         {
                             if (rowModules["Code"].ToString() == rowResults["Code"].ToString())
                             {
                                 TreeNode nodeResults = nodeLecturer.Nodes.Add(rowResults["Type"].ToString());
                                 nodeResults.Name = rowResults["AssessmentID"].ToString();
+                            }
+                        }
+
+                        foreach (DataRow rowMCQs in treeConnDataMCQs.Rows)
+                        {
+                            if(rowMCQs["Code"].ToString() == rowModules["Code"].ToString())
+                            {
+                                TreeNode nodeResults = nodeLecturer.Nodes.Add("MCQ");
+                                nodeResults.Name = rowMCQs["MCQID"].ToString();
                             }
                         }
                 }
@@ -312,7 +330,7 @@ namespace Lecturer
                                                         ";Uid=" + connection.UID + ";" +
                                                         "Password=" + connection.Password + ";");
 
-            DataTable treeConnData;;
+            DataTable treeConnData;
             if (dataAdapters.ContainsKey(name))
             {
                 dataAdapters[name] = new MySqlDataAdapter(query, treeConn);
@@ -374,17 +392,10 @@ namespace Lecturer
             frmAddMCQ MCQForm = new frmAddMCQ();
             MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
-            /*dataModuleMCQ = getData("SELECT MCQs.NoOfQs, MCQs.MarksPerQ, " +
-                                "MCQs.NegativeMarking, MCQs.MarksAvailable " +
-                                "FROM MCQs, Modules " +
-                                "WHERE MCQs.ModuleID = Modules.ModuleID " +
-                                "AND Modules.ModuleID =" + moduleID, "dataModuleMCQ");
-            dgvMCQ.AutoGenerateColumns = true;*/
 
             dataModuleMCQ.Rows.Add(MCQRow);
 
             dgvMCQ.DataSource = dataModuleMCQ;
-
             checkTotalMarksAvailable();
         }
 
@@ -392,16 +403,14 @@ namespace Lecturer
 
         private void btnAddOther_Click(object sender, EventArgs e)
         {
+            OtherRow = dataModuleOther.NewRow();
             frmAddOther OtherForm = new frmAddOther();
             OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
-            dataModuleOther = getData("SELECT Other_Assessments.MarksAvailable, Other_Assessments.Type " +
-                                "FROM Other_Assessments, Modules " +
-                                "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
-                                "AND Modules.ModuleID =" + moduleID, "dataModuleOther");
-            dgvOther.AutoGenerateColumns = true;
-            dgvOther.DataSource = dataModuleOther;
 
+            dataModuleOther.Rows.Add(OtherRow);
+
+            dgvOther.DataSource = dataModuleOther;
             checkTotalMarksAvailable();
         }
 
@@ -429,10 +438,17 @@ namespace Lecturer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            dgvMain.EndEdit();
             dgvMCQ.EndEdit();
             dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
-            dataModuleMCQ.AcceptChanges();
+
+            dgvOther.EndEdit();
+            dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
+
+            dgvMain.EndEdit();
+            dataAdapters["dataModule"].Update((DataTable)bindingSources["dataModule"].DataSource);
+            clearLecturerTree();
+            populateLecturerTree();
+            refreshModuleDetails();
         }
 
         private void dgvOther_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -454,16 +470,58 @@ namespace Lecturer
             }
             if (totalMarksAvailable > 100)
             {
+                btnSave.Enabled = false; 
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
             }
             else if (totalMarksAvailable < 100)
             {
+                btnSave.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
             }
             else
             {
+                btnSave.Enabled = true;
                 lblWarning.Text = "";
             }
+        }
+
+        private void refreshModuleDetails()
+        {
+            dataModule = getData("SELECT * " +
+                           "FROM Modules " +
+                           "WHERE ModuleID = " + moduleID, "dataModule");
+
+            dgvMain.AutoGenerateColumns = true;
+            dgvMain.DataSource = bindingSources["dataModule"];
+
+            dataModuleMCQ = getData("SELECT MCQs.ModuleID, MCQs.MCQID, MCQs.NoOfQs, MCQs.MarksPerQ, " +
+                                            "MCQs.NegativeMarking, MCQs.MarksAvailable " +
+                                            "FROM MCQs, Modules " +
+                                            "WHERE MCQs.ModuleID = Modules.ModuleID " +
+                                            "AND Modules.ModuleID =" + moduleID, "dataModuleMCQ");
+            dgvMCQ.AutoGenerateColumns = true;
+            dgvMCQ.DataSource = bindingSources["dataModuleMCQ"];
+
+            dataModuleOther = getData("SELECT Other_Assessments.ModuleID, Other_Assessments.AssessmentID, Other_Assessments.MarksAvailable, Other_Assessments.Type " +
+                                "FROM Other_Assessments, Modules " +
+                                "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
+                                "AND Modules.ModuleID =" + moduleID, "dataModuleOther");
+            dgvOther.AutoGenerateColumns = true;
+            dgvOther.DataSource = bindingSources["dataModuleOther"];
+            makeAssignementsVisible();
+
+            checkTotalMarksAvailable();
+        }
+
+        private void clearLecturerTree()
+        {
+            treeLecturer.Nodes.Clear();
+            TreeNode results = treeLecturer.Nodes.Add("Results");
+            results.Name = "tnoResults";
+            TreeNode moduleResults = results.Nodes.Add("Modules");
+            moduleResults.Name = "tnoModulesResults";
+            TreeNode modules = treeLecturer.Nodes.Add("Modules");
+            modules.Name = "tnoModules";
         }
 
         private void dgvMCQ_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
@@ -479,6 +537,11 @@ namespace Lecturer
         private void dgvOther_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             checkTotalMarksAvailable();
+        }
+
+        private void btnDiscard_Click(object sender, EventArgs e)
+        {
+            refreshModuleDetails();
         }
     }
 }
