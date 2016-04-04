@@ -11,3 +11,16 @@ C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\bin\Debug
 C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmLogin.resources
 C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmAddMCQ.resources
 C:\Users\mateu\Documents\Visual Studio 2015\Projects\Lecturer\Lecturer\obj\Debug\Lecturer.frmAddOther.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\bin\Debug\Lecturer.exe.config
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.exe
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.pdb
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\bin\Debug\Lecturer.exe
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\bin\Debug\Lecturer.pdb
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\bin\Debug\MySql.Data.dll
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.csprojResolveAssemblyReference.cache
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.frmAddMCQ.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.frmAddOther.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.frmLogin.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.frmMain.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.Properties.Resources.resources
+C:\Users\114739731\Downloads\ResultsApp-master\ResultsApp-master\Lecturer\obj\Debug\Lecturer.csproj.GenerateResource.Cache

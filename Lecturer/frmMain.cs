@@ -92,59 +92,43 @@ namespace Lecturer
             TreeNode node = e.Node;
             TreeNode parent = node.Parent;
             int x = 0;
-            if (int.TryParse(node.Name, out x) && parent.Parent.Name=="tnoModulesResults" && node.Text != "MCQ")
-            { 
-                dataResultsAssessments = getData("SELECT Students.Name, Students.StudentID, Other_Assessments_Results.Result " +
-                                        "FROM Other_Assessments, Other_Assessments_Results, Students " +
-                                        "WHERE Other_Assessments_Results.AssessmentID = Other_Assessments.AssessmentID " +
-                                        "AND Other_Assessments_Results.StudentID = Students.StudentID " +
-                                        "AND Other_Assessments.AssessmentID = " + node.Name, "dataResultsAssessments");
-
-                dgvMain.AutoGenerateColumns = true;
-                dgvMain.DataSource = bindingSources["dataResultsAssessments"];
-                makeAssignementsInvisible();
-            }
-            else if(int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
+            if (node.Parent != null && parent.Parent != null)
             {
-                /*dataResultsAssessments = getData("SELECT Students.Name, Students.StudentID, MCQs_Results.NoOfCorrectQs, " +
-                                        "MCQs_Results.NoOfIncorrectQs, MCQs_Results.NoOfNotAnsweredQs " +
-                                        "FROM MCQs, MCQs_Results, Students " +
-                                        "WHERE MCQs_Results.MCQID = MCQs.MCQID " +
-                                        "AND MCQs_Results.StudentID = Students.StudentID " +
-                                        "AND MCQs.MCQID = " + node.Name, "dataResultsAssessments");
+                if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text != "MCQ")
+                {
+                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.Result " +
+                                "FROM (SELECT Other_Assessments_Results.Result, Other_Assessments_Results.StudentID " +
+                                "FROM Other_Assessments_Results " +
+                                "WHERE Other_Assessments_Results.AssessmentID = " + node.Name + ") t " +
+                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
+                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name,
+                                "dataResultsAssessments");
 
-                SELECT MCQs_Results.StudentID, MCQs_Results.NoOfCorrectQs
-FROM MCQs_Results, MCQs, Stud_Mod, Modules
-WHERE MCQs_Results.MCQID = MCQs.MCQID
-AND MCQs.ModuleID = Modules.ModuleID
-AND Modules.ModuleID = Stud_Mod.ModuleID
-AND Modules.ModuleID =1*/
+                    dgvMain.AutoGenerateColumns = true;
+                    dgvMain.DataSource = bindingSources["dataResultsAssessments"];
+                    makeAssignementsInvisible();
+                }
+                else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
+                {
+                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.NoOfCorrectQs " +
+                                                    "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID " +
+                                                    "FROM MCQs_Results " +
+                                                    "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
+                                                    "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
+                                                    "WHERE Stud_Mod.ModuleID = " + node.Parent.Name,
+                                                    "dataResultsAssessments");
 
-
-                /*
-                SELECT MCQs_Results.NoOfCorrectQs
-                FROM MCQs_Results
-                WHERE MCQ_Results.MCQID = node.Name
-
-
-                */
-                dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.* " +
-                                                "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID " +
-                                                "FROM MCQs_Results " +
-                                                "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
-                                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
-                                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name
-                                                , "dataResultsAssessments");
-
-                dgvMain.AutoGenerateColumns = true;
-                dgvMain.DataSource = bindingSources["dataResultsAssessments"];
-                makeAssignementsInvisible();
+                    dgvMain.AutoGenerateColumns = true;
+                    dgvMain.DataSource = bindingSources["dataResultsAssessments"];
+                    makeAssignementsInvisible();
+                }
             }
-            else if(node.Parent!=null && node.Parent.Name=="tnoModules")
-            {
-                moduleID = Int32.Parse(node.Name);
-                refreshModuleDetails();
-            }
+                if (node.Parent != null && node.Parent.Name == "tnoModules")
+                {
+                    moduleID = Int32.Parse(node.Name);
+                    refreshModuleDetails();
+                }
+            
         }
 
 
