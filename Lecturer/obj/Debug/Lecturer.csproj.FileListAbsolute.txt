@@ -53,3 +53,29 @@ C:\Users\114739731\Desktop\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmLogin.r
 C:\Users\114739731\Desktop\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmMain.resources
 C:\Users\114739731\Desktop\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.Properties.Resources.resources
 C:\Users\114739731\Desktop\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.csproj.GenerateResource.Cache
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.exe.config
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.exe
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.pdb
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.exe
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.pdb
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\MySql.Data.dll
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.csprojResolveAssemblyReference.cache
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddMCQ.resources
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddOther.resources
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmLogin.resources
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmMain.resources
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.Properties.Resources.resources
+C:\Users\114739731\Desktop\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.csproj.GenerateResource.Cache
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.exe.config
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.exe
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.pdb
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.exe
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\Lecturer.pdb
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\bin\Debug\MySql.Data.dll
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.csprojResolveAssemblyReference.cache
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddMCQ.resources
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddOther.resources
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmLogin.resources
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmMain.resources
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.Properties.Resources.resources
+H:\Second year\IS2215\rec\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.csproj.GenerateResource.Cache

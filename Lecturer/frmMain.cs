@@ -21,6 +21,7 @@ namespace Lecturer
         private Dictionary<String, BindingSource> bindingSources = new Dictionary<string, BindingSource>();
         private Dictionary<String, MySqlCommandBuilder> cmdBuilders = new Dictionary<string, MySqlCommandBuilder>();
         private int totalMarksAvailable;
+        private String nodeSelected;
 
         #region "DataTables"
         static private DataTable dataResultsAssessments;
@@ -107,6 +108,7 @@ namespace Lecturer
                     dgvMain.AutoGenerateColumns = true;
                     dgvMain.DataSource = bindingSources["dataResultsAssessments"];
                     makeAssignementsInvisible();
+                    nodeSelected = "LecturerResults";
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
@@ -121,12 +123,14 @@ namespace Lecturer
                     dgvMain.AutoGenerateColumns = true;
                     dgvMain.DataSource = bindingSources["dataResultsAssessments"];
                     makeAssignementsInvisible();
+                    nodeSelected = "LecturerResults";
                 }
             }
                 if (node.Parent != null && node.Parent.Name == "tnoModules")
                 {
                     moduleID = Int32.Parse(node.Name);
                     refreshModuleDetails();
+                    nodeSelected = "LecturerModule";
                 }
             
         }
@@ -144,7 +148,35 @@ namespace Lecturer
 
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataStudents"];
+                nodeSelected = "AdminStudents";
             }
+            else if(node.Name=="tnoModules")
+            {
+                dataModules = getData("SELECT * " +
+                                        "FROM Modules ", "dataModules");
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = bindingSources["dataModules"];
+                nodeSelected = "AdminModules";
+            }
+            else if(node.Name=="tnoLecturers")
+            {
+                dataLecturers = getData("SELECT * " +
+                                        "FROM Lecturers ", "dataLecturers");
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = bindingSources["dataLecturers"];
+                nodeSelected = "AdminLecturers";
+            }
+            else if(node.Name=="tnoLecturersModules")
+            {
+                nodeSelected = "AdminLecturersModules";
+            }
+            else if(node.Name=="tnoStudentsModules")
+            {
+                nodeSelected = "tnoStudentsModules";
+            }
+                /*
             else if(node.Parent != null && node.Parent.Name == "tnoModules")
             {
                 dataModules = getData("SELECT * " +
@@ -162,7 +194,7 @@ namespace Lecturer
 
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataLecturers"];
-            }
+            }*/
         }
 
 
@@ -206,10 +238,11 @@ namespace Lecturer
                 splitContainer1.Panel2.Enabled = true;
                 logInToolStripMenuItem.Enabled = false;
                 logOutToolStripMenuItem.Enabled = true;
+                makeAssignementsInvisible();
                 if (user.IsAdmin)
                 {
                     splitContainer2.Panel2.Enabled = true;
-                    populateAdminTree();
+                    //populateAdminTree();
                 }
                 populateLecturerTree();
             }                     
@@ -291,7 +324,7 @@ namespace Lecturer
 
 
 
-        private void populateAdminTree()
+        /*private void populateAdminTree()
         {
             DataTable treeConnDataModules = getData("SELECT Code, Name, ModuleID " +
                                     "FROM Modules", "treeAModules");
@@ -312,7 +345,7 @@ namespace Lecturer
                     nodeAdminLecturers.Name = rowLecturers["LecturerID"].ToString();
                 }
             
-        }
+        }*/
 
 
 
@@ -348,26 +381,24 @@ namespace Lecturer
 
         private void makeAssignementsVisible()
         {
-            lblMCQ.Visible = true;
-            lblOther.Visible = true;
-            dgvMCQ.Visible = true;
+            splitContainer5.Visible = true;
+            /*dgvMCQ.Visible = true;
             dgvOther.Visible = true;
             btnAddMCQ.Visible = true;
             btnAddOther.Visible = true;
-            lblWarning.Visible = true;
+            lblWarning.Visible = true;*/
         }
 
 
 
         private void makeAssignementsInvisible()
         {
-            lblMCQ.Visible = false;
-            lblOther.Visible = false;
-            dgvMCQ.Visible = false;
+            splitContainer5.Visible = false;
+            /*dgvMCQ.Visible = false;
             dgvOther.Visible = false;
             btnAddMCQ.Visible = false;
             btnAddOther.Visible = false;
-            lblWarning.Visible = false;
+            lblWarning.Visible = false;*/
         }
 
 
@@ -434,6 +465,7 @@ namespace Lecturer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            
             dgvMCQ.EndEdit();
             dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
 
@@ -552,6 +584,42 @@ namespace Lecturer
             dgvOther.Columns[0].Visible = false;
             dgvOther.Columns[1].Visible = false;
             dgvMCQ.Columns[1].Visible = false;
+        }
+
+        private void btnSaveData_Click(object sender, EventArgs e)
+
+        {
+            switch(nodeSelected)
+            {
+                case "LecturerResults":
+                    break;
+                case "LecturerModule":
+                    dgvMain.EndEdit();
+                    dataAdapters["dataModule"].Update((DataTable)bindingSources["dataModule"].DataSource);
+                    clearLecturerTree();
+                    populateLecturerTree();
+                    refreshModuleDetails();
+                    hideColumns();
+                    break;
+                case "AdminStudents":
+                    dgvMain.EndEdit();
+                    dataAdapters["dataStudents"].Update((DataTable)bindingSources["dataStudents"].DataSource);
+                    break;
+                case "AdminModules":
+                    dgvMain.EndEdit();
+                    dataAdapters["dataModules"].Update((DataTable)bindingSources["dataModules"].DataSource);
+                    break;
+                case "AdminLecturers":
+                    dgvMain.EndEdit();
+                    dataAdapters["dataLecturers"].Update((DataTable)bindingSources["dataLecturers"].DataSource);
+                    break;
+                case "AdminLecturersModules":
+                    break;
+                case "AdminStudentsModules":
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
