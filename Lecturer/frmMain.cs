@@ -390,6 +390,7 @@ namespace Lecturer
 
             dgvMCQ.DataSource = dataModuleMCQ;
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
 
@@ -405,6 +406,7 @@ namespace Lecturer
 
             dgvOther.DataSource = dataModuleOther;
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
 
@@ -427,6 +429,7 @@ namespace Lecturer
         private void dgvMCQ_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -442,11 +445,13 @@ namespace Lecturer
             clearLecturerTree();
             populateLecturerTree();
             refreshModuleDetails();
+            hideColumns();
         }
 
         private void dgvOther_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
 
@@ -504,6 +509,7 @@ namespace Lecturer
             makeAssignementsVisible();
 
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
         private void clearLecturerTree()
@@ -520,6 +526,7 @@ namespace Lecturer
         private void dgvMCQ_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
         private void dgvOther_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -530,11 +537,21 @@ namespace Lecturer
         private void dgvOther_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             checkTotalMarksAvailable();
+            hideColumns();
         }
 
         private void btnDiscard_Click(object sender, EventArgs e)
         {
             refreshModuleDetails();
+            hideColumns();
+        }
+
+        private void hideColumns()
+        {
+            dgvMCQ.Columns[0].Visible = false;
+            dgvOther.Columns[0].Visible = false;
+            dgvOther.Columns[1].Visible = false;
+            dgvMCQ.Columns[1].Visible = false;
         }
     }
 }
