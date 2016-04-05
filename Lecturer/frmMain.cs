@@ -34,7 +34,7 @@ namespace Lecturer
         #endregion
 
         static private DataRow mCQRow;
-        static private DataRow otherRow; 
+        static private DataRow otherRow;
         internal static User User
         {
             get
@@ -126,13 +126,13 @@ namespace Lecturer
                     nodeSelected = "LecturerResults";
                 }
             }
-                if (node.Parent != null && node.Parent.Name == "tnoModules")
-                {
-                    moduleID = Int32.Parse(node.Name);
-                    refreshModuleDetails();
-                    nodeSelected = "LecturerModule";
-                }
-            
+            if (node.Parent != null && node.Parent.Name == "tnoModules")
+            {
+                moduleID = Int32.Parse(node.Name);
+                refreshModuleDetails();
+                nodeSelected = "LecturerModule";
+            }
+
         }
 
 
@@ -141,7 +141,7 @@ namespace Lecturer
         {
             TreeNode node = e.Node;
             makeAssignementsInvisible();
-            if(node.Name == "tnoStudents")
+            if (node.Name == "tnoStudents")
             {
                 dataStudents = getData("SELECT * " +
                                         "FROM Students", "dataStudents");
@@ -150,7 +150,7 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataStudents"];
                 nodeSelected = "AdminStudents";
             }
-            else if(node.Name=="tnoModules")
+            else if (node.Name == "tnoModules")
             {
                 dataModules = getData("SELECT * " +
                                         "FROM Modules ", "dataModules");
@@ -159,7 +159,7 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataModules"];
                 nodeSelected = "AdminModules";
             }
-            else if(node.Name=="tnoLecturers")
+            else if (node.Name == "tnoLecturers")
             {
                 dataLecturers = getData("SELECT * " +
                                         "FROM Lecturers ", "dataLecturers");
@@ -168,33 +168,33 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataLecturers"];
                 nodeSelected = "AdminLecturers";
             }
-            else if(node.Name=="tnoLecturersModules")
+            else if (node.Name == "tnoLecturersModules")
             {
                 nodeSelected = "AdminLecturersModules";
             }
-            else if(node.Name=="tnoStudentsModules")
+            else if (node.Name == "tnoStudentsModules")
             {
                 nodeSelected = "tnoStudentsModules";
             }
-                /*
-            else if(node.Parent != null && node.Parent.Name == "tnoModules")
-            {
-                dataModules = getData("SELECT * " +
-                                        "FROM Modules " +
-                                        "WHERE ModuleID=" + node.Name, "dataModules");
+            /*
+        else if(node.Parent != null && node.Parent.Name == "tnoModules")
+        {
+            dataModules = getData("SELECT * " +
+                                    "FROM Modules " +
+                                    "WHERE ModuleID=" + node.Name, "dataModules");
 
-                dgvMain.AutoGenerateColumns = true;
-                dgvMain.DataSource = bindingSources["dataModules"];
-            }
-            else if(node.Parent != null && node.Parent.Name =="tnoLecturers")
-            {
-                dataLecturers = getData("SELECT * " +
-                                        "FROM Lecturers " +
-                                        "WHERE LecturerID=" + node.Name, "dataLecturers");
+            dgvMain.AutoGenerateColumns = true;
+            dgvMain.DataSource = bindingSources["dataModules"];
+        }
+        else if(node.Parent != null && node.Parent.Name =="tnoLecturers")
+        {
+            dataLecturers = getData("SELECT * " +
+                                    "FROM Lecturers " +
+                                    "WHERE LecturerID=" + node.Name, "dataLecturers");
 
-                dgvMain.AutoGenerateColumns = true;
-                dgvMain.DataSource = bindingSources["dataLecturers"];
-            }*/
+            dgvMain.AutoGenerateColumns = true;
+            dgvMain.DataSource = bindingSources["dataLecturers"];
+        }*/
         }
 
 
@@ -245,7 +245,7 @@ namespace Lecturer
                     //populateAdminTree();
                 }
                 populateLecturerTree();
-            }                     
+            }
         }
 
 
@@ -288,38 +288,38 @@ namespace Lecturer
                                                 "AND Modules.ModuleID = MCQs.ModuleID " +
                                                 "AND Lecturers.LecturerID = " + user.UserID, "treeLMCQs");
 
-                foreach (DataRow rowModules in treeConnDataModules.Rows)
+            foreach (DataRow rowModules in treeConnDataModules.Rows)
+            {
+                TreeNode nodeLecturer;
+                nodeLecturer = treeLecturer.Nodes["tnoResults"].Nodes["tnoModulesResults"].Nodes.
+                    Add(rowModules["Code"].ToString() + " - " + rowModules["Name"].ToString());
+                nodeLecturer.Name = rowModules["ModuleID"].ToString();
+                foreach (DataRow rowResults in treeConnDataExams.Rows)
                 {
-                    TreeNode nodeLecturer;
-                    nodeLecturer = treeLecturer.Nodes["tnoResults"].Nodes["tnoModulesResults"].Nodes.
-                        Add(rowModules["Code"].ToString() + " - " + rowModules["Name"].ToString());
-                    nodeLecturer.Name = rowModules["ModuleID"].ToString();
-                        foreach (DataRow rowResults in treeConnDataExams.Rows)
-                        {
-                            if (rowModules["Code"].ToString() == rowResults["Code"].ToString())
-                            {
-                                TreeNode nodeResults = nodeLecturer.Nodes.Add(rowResults["Type"].ToString());
-                                nodeResults.Name = rowResults["AssessmentID"].ToString();
-                            }
-                        }
-
-                        foreach (DataRow rowMCQs in treeConnDataMCQs.Rows)
-                        {
-                            if(rowMCQs["Code"].ToString() == rowModules["Code"].ToString())
-                            {
-                                TreeNode nodeResults = nodeLecturer.Nodes.Add("MCQ");
-                                nodeResults.Name = rowMCQs["MCQID"].ToString();
-                            }
-                        }
+                    if (rowModules["Code"].ToString() == rowResults["Code"].ToString())
+                    {
+                        TreeNode nodeResults = nodeLecturer.Nodes.Add(rowResults["Type"].ToString());
+                        nodeResults.Name = rowResults["AssessmentID"].ToString();
+                    }
                 }
 
-                foreach (DataRow rowModules in treeConnDataModules.Rows)
+                foreach (DataRow rowMCQs in treeConnDataMCQs.Rows)
                 {
-                    TreeNode nodeEditModules = treeLecturer.Nodes["tnoModules"].Nodes.Add(rowModules["Code"].ToString() + 
-                        " - " + rowModules["Name"].ToString());
-                    nodeEditModules.Name = rowModules["ModuleID"].ToString();
+                    if (rowMCQs["Code"].ToString() == rowModules["Code"].ToString())
+                    {
+                        TreeNode nodeResults = nodeLecturer.Nodes.Add("MCQ");
+                        nodeResults.Name = rowMCQs["MCQID"].ToString();
+                    }
                 }
-            
+            }
+
+            foreach (DataRow rowModules in treeConnDataModules.Rows)
+            {
+                TreeNode nodeEditModules = treeLecturer.Nodes["tnoModules"].Nodes.Add(rowModules["Code"].ToString() +
+                    " - " + rowModules["Name"].ToString());
+                nodeEditModules.Name = rowModules["ModuleID"].ToString();
+            }
+
         }
 
 
@@ -465,7 +465,7 @@ namespace Lecturer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
+
             dgvMCQ.EndEdit();
             dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
 
@@ -500,17 +500,20 @@ namespace Lecturer
             }
             if (totalMarksAvailable > 100)
             {
-                btnSave.Enabled = false; 
+                btnSaveMCQ.Enabled = false;
+                btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
             }
             else if (totalMarksAvailable < 100)
             {
-                btnSave.Enabled = false;
+                btnSaveMCQ.Enabled = false;
+                btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
             }
             else
             {
-                btnSave.Enabled = true;
+                btnSaveMCQ.Enabled = true;
+                btnSaveOthers.Enabled = true;
                 lblWarning.Text = "";
             }
         }
@@ -587,39 +590,86 @@ namespace Lecturer
         }
 
         private void btnSaveData_Click(object sender, EventArgs e)
-
         {
-            switch(nodeSelected)
+            DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                case "LecturerResults":
-                    break;
-                case "LecturerModule":
-                    dgvMain.EndEdit();
-                    dataAdapters["dataModule"].Update((DataTable)bindingSources["dataModule"].DataSource);
-                    clearLecturerTree();
-                    populateLecturerTree();
-                    refreshModuleDetails();
-                    hideColumns();
-                    break;
-                case "AdminStudents":
-                    dgvMain.EndEdit();
-                    dataAdapters["dataStudents"].Update((DataTable)bindingSources["dataStudents"].DataSource);
-                    break;
-                case "AdminModules":
-                    dgvMain.EndEdit();
-                    dataAdapters["dataModules"].Update((DataTable)bindingSources["dataModules"].DataSource);
-                    break;
-                case "AdminLecturers":
-                    dgvMain.EndEdit();
-                    dataAdapters["dataLecturers"].Update((DataTable)bindingSources["dataLecturers"].DataSource);
-                    break;
-                case "AdminLecturersModules":
-                    break;
-                case "AdminStudentsModules":
-                    break;
-                default:
-                    break;
+                switch (nodeSelected)
+                {
+                    case "LecturerResults":
+                        break;
+                    case "LecturerModule":
+                        dgvMain.EndEdit();
+                        bindingSources["dataModule"].EndEdit();
+                        dataAdapters["dataModule"].Update((DataTable)bindingSources["dataModule"].DataSource);
+                        clearLecturerTree();
+                        populateLecturerTree();
+                        refreshModuleDetails();
+                        break;
+                    case "AdminStudents":
+                        dgvMain.EndEdit();
+                        bindingSources["dataStudents"].EndEdit();
+                        dataAdapters["dataStudents"].Update((DataTable)bindingSources["dataStudents"].DataSource);
+                        break;
+                    case "AdminModules":
+                        dgvMain.EndEdit();
+                        bindingSources["dataModules"].EndEdit();
+                        dataAdapters["dataModules"].Update((DataTable)bindingSources["dataModules"].DataSource);
+                        clearLecturerTree();
+                        populateLecturerTree();
+                        break;
+                    case "AdminLecturers":
+                        dgvMain.EndEdit();
+                        bindingSources["dataLecturers"].EndEdit();
+                        dataAdapters["dataLecturers"].Update((DataTable)bindingSources["dataLecturers"].DataSource);
+                        clearLecturerTree();
+                        populateLecturerTree();
+                        break;
+                    case "AdminLecturersModules":
+                        break;
+                    case "AdminStudentsModules":
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+
+        private void btnSaveMCQ_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                dgvMCQ.EndEdit();
+                bindingSources["dataModuleMCQ"].EndEdit();
+                dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
+                dgvOther.EndEdit();
+                bindingSources["dataModuleOther"].EndEdit();
+                dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
+                clearLecturerTree();
+                populateLecturerTree();
+            }
+        }
+
+        private void btnSaveOthers_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                dgvMCQ.EndEdit();
+                bindingSources["dataModuleMCQ"].EndEdit();
+                dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
+                dgvOther.EndEdit();
+                bindingSources["dataModuleOther"].EndEdit();
+                dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
+                clearLecturerTree();
+                populateLecturerTree();
+            }
+        }
+
+        private void statusMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
