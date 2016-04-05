@@ -75,6 +75,7 @@ namespace Lecturer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            frmMain.OtherRow["ModuleID"] = 0;
             this.Close();
         }
 

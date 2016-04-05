@@ -80,6 +80,7 @@ namespace Lecturer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            frmMain.MCQRow["ModuleID"] = 0;
             this.Close();
         }
 

@@ -80,14 +80,6 @@ namespace Lecturer
         }
 
 
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
@@ -112,8 +104,11 @@ namespace Lecturer
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
-                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.NoOfCorrectQs " +
-                                                    "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID " +
+                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.NoOfCorrectQs AS 'Number Of Correct Answers', " +
+                                                    "t.NoOfIncorrectQs AS 'Number Of Incorrect Answers', " +
+                                                    "t.NoOfNotAnsweredQs AS 'Number Of Not Answered Questions' " +
+                                                    "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID, " +
+                                                    "MCQs_Results.NoOfIncorrectQs, MCQs_Results.NoOfNotAnsweredQs " +
                                                     "FROM MCQs_Results " +
                                                     "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
                                                     "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
@@ -176,25 +171,6 @@ namespace Lecturer
             {
                 nodeSelected = "tnoStudentsModules";
             }
-            /*
-        else if(node.Parent != null && node.Parent.Name == "tnoModules")
-        {
-            dataModules = getData("SELECT * " +
-                                    "FROM Modules " +
-                                    "WHERE ModuleID=" + node.Name, "dataModules");
-
-            dgvMain.AutoGenerateColumns = true;
-            dgvMain.DataSource = bindingSources["dataModules"];
-        }
-        else if(node.Parent != null && node.Parent.Name =="tnoLecturers")
-        {
-            dataLecturers = getData("SELECT * " +
-                                    "FROM Lecturers " +
-                                    "WHERE LecturerID=" + node.Name, "dataLecturers");
-
-            dgvMain.AutoGenerateColumns = true;
-            dgvMain.DataSource = bindingSources["dataLecturers"];
-        }*/
         }
 
 
@@ -214,20 +190,6 @@ namespace Lecturer
 
 
 
-        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-
-
         private void logInToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmLogin LoginForm = new frmLogin();
@@ -242,7 +204,6 @@ namespace Lecturer
                 if (user.IsAdmin)
                 {
                     splitContainer2.Panel2.Enabled = true;
-                    //populateAdminTree();
                 }
                 populateLecturerTree();
             }
@@ -324,31 +285,6 @@ namespace Lecturer
 
 
 
-        /*private void populateAdminTree()
-        {
-            DataTable treeConnDataModules = getData("SELECT Code, Name, ModuleID " +
-                                    "FROM Modules", "treeAModules");
-            DataTable treeConnDataLecturers = getData("SELECT Name, LecturerID " +
-                                    "FROM Lecturers", "treeALecturers");
-
-                foreach (DataRow rowModules in treeConnDataModules.Rows)
-                {
-                   TreeNode nodeAdminModules = treeAdmin.Nodes["tnoModules"].Nodes.Add(rowModules["Code"].ToString() +
-                        " - " + rowModules["Name"].ToString());
-                    nodeAdminModules.Name = rowModules["ModuleID"].ToString();
-                }
-            
-
-                foreach (DataRow rowLecturers in treeConnDataLecturers.Rows)
-                {
-                    TreeNode nodeAdminLecturers = treeAdmin.Nodes["tnoLecturers"].Nodes.Add(rowLecturers["Name"].ToString());
-                    nodeAdminLecturers.Name = rowLecturers["LecturerID"].ToString();
-                }
-            
-        }*/
-
-
-
         private DataTable getData(String query, String name)
         {
             MySqlConnection treeConn = new MySqlConnection("Server=" + connection.Server +
@@ -382,11 +318,6 @@ namespace Lecturer
         private void makeAssignementsVisible()
         {
             splitContainer5.Visible = true;
-            /*dgvMCQ.Visible = true;
-            dgvOther.Visible = true;
-            btnAddMCQ.Visible = true;
-            btnAddOther.Visible = true;
-            lblWarning.Visible = true;*/
         }
 
 
@@ -394,11 +325,6 @@ namespace Lecturer
         private void makeAssignementsInvisible()
         {
             splitContainer5.Visible = false;
-            /*dgvMCQ.Visible = false;
-            dgvOther.Visible = false;
-            btnAddMCQ.Visible = false;
-            btnAddOther.Visible = false;
-            lblWarning.Visible = false;*/
         }
 
 
@@ -417,11 +343,14 @@ namespace Lecturer
             MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
 
-            dataModuleMCQ.Rows.Add(MCQRow);
+            if ((int)MCQRow["ModuleID"] != 0)
+            {
+                dataModuleMCQ.Rows.Add(MCQRow);
 
-            dgvMCQ.DataSource = dataModuleMCQ;
-            checkTotalMarksAvailable();
-            hideColumns();
+                dgvMCQ.DataSource = dataModuleMCQ;
+                checkTotalMarksAvailable();
+                hideColumns();
+            }
         }
 
 
@@ -433,28 +362,14 @@ namespace Lecturer
             OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
 
-            dataModuleOther.Rows.Add(OtherRow);
+            if ((int)OtherRow["ModuleID"] != 0)
+            {
+                dataModuleOther.Rows.Add(OtherRow);
 
-            dgvOther.DataSource = dataModuleOther;
-            checkTotalMarksAvailable();
-            hideColumns();
-        }
-
-
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer4_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgvMCQ_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+                dgvOther.DataSource = dataModuleOther;
+                checkTotalMarksAvailable();
+                hideColumns();
+            }
         }
 
         private void dgvMCQ_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -564,11 +479,6 @@ namespace Lecturer
             hideColumns();
         }
 
-        private void dgvOther_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void dgvOther_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             checkTotalMarksAvailable();
@@ -597,6 +507,7 @@ namespace Lecturer
                 switch (nodeSelected)
                 {
                     case "LecturerResults":
+                        DataTable data = (DataTable)(dgvMain.DataSource);
                         break;
                     case "LecturerModule":
                         dgvMain.EndEdit();
@@ -665,11 +576,6 @@ namespace Lecturer
                 clearLecturerTree();
                 populateLecturerTree();
             }
-        }
-
-        private void statusMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
     }
 }
