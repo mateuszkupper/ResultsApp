@@ -17,6 +17,7 @@ namespace Lecturer
         static private User user = new User();
         private Connection connection = new Connection();
         private int moduleID;
+        private int MCQID = 0;
         private Dictionary<String, MySqlDataAdapter> dataAdapters = new Dictionary<String, MySqlDataAdapter>();
         private Dictionary<String, BindingSource> bindingSources = new Dictionary<string, BindingSource>();
         private Dictionary<String, MySqlCommandBuilder> cmdBuilders = new Dictionary<string, MySqlCommandBuilder>();
@@ -104,19 +105,23 @@ namespace Lecturer
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
-                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.NoOfCorrectQs AS 'Number Of Correct Answers', " +
+                    dataResultsAssessments = getData("SELECT x.Name, x.StudentID, t.NoOfCorrectQs AS 'Number Of Correct Answers', " +
                                                     "t.NoOfIncorrectQs AS 'Number Of Incorrect Answers', " +
                                                     "t.NoOfNotAnsweredQs AS 'Number Of Not Answered Questions' " +
                                                     "FROM (SELECT MCQs_Results.NoOfCorrectQs, MCQs_Results.StudentID, " +
                                                     "MCQs_Results.NoOfIncorrectQs, MCQs_Results.NoOfNotAnsweredQs " +
                                                     "FROM MCQs_Results " +
                                                     "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
-                                                    "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
-                                                    "WHERE Stud_Mod.ModuleID = " + node.Parent.Name,
+                                                    "RIGHT JOIN (SELECT Stud_Mod.StudentID, Students.Name, Stud_Mod.ModuleID " +
+                                                    "FROM Students, Stud_Mod " +
+                                                    "WHERE Students.StudentID = Stud_Mod.StudentID) AS x " +
+                                                    "ON x.StudentID = t.StudentID " +
+                                                    "WHERE x.ModuleID = " + node.Parent.Name,
                                                     "dataResultsAssessments");
 
+                    MCQID = Int32.Parse(node.Name);
                     dgvMain.AutoGenerateColumns = true;
-                    dgvMain.DataSource = bindingSources["dataResultsAssessments"];
+                    dgvMain.DataSource = dataResultsAssessments;
                     makeAssignementsInvisible();
                     nodeSelected = "LecturerResults";
                 }
@@ -508,6 +513,31 @@ namespace Lecturer
                 {
                     case "LecturerResults":
                         DataTable data = (DataTable)(dgvMain.DataSource);
+                        MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
+                                                        ";Database=" + connection.DB +
+                                                        ";Uid=" + connection.UID + ";" +
+                                                        "Password=" + connection.Password + ";");
+                        MySqlCommand command = conn.CreateCommand();
+                        foreach (DataGridViewRow row in dgvMain.Rows)
+                        {
+                            /*
+                             "UPDATE MCQs_Results" +
+                             "SET NoOfCorrectQs = " + row.Cells['Number Of Correct Answers'] + ", " +
+                             "NoOfIncorrectQs = " + row.Cells['Number Of Incorrect Answers'] + ", " +
+                             "NoOfNotAnsweredQs = " + row.Cells['Number Of Not Answered Questions'] + " " +
+                             "WHERE StudentID = " + row.Cells['StudentID'] + " " +
+                             "AND MCQID = " + MCQID
+                             */
+                            command.CommandText =  "UPDATE MCQs_Results" +
+                                                    "SET NoOfCorrectQs = " + row.Cells["Number Of Correct Answers"].Value + ", " +
+                                                    "NoOfIncorrectQs = " + row.Cells["Number Of Incorrect Answers"].Value + ", " +
+                                                    "NoOfNotAnsweredQs = " + "4"/*row.Cells["Number Of Not Answered Questions"].Valu1e*/ + " " +
+                                                    "WHERE StudentID = " + row.Cells["StudentID"].Value + " " +
+                                                    "AND MCQID = " + MCQID;
+                            //command.Parameters.AddWithValue("?name", "h");
+                        }
+                        conn.Open();
+                        command.ExecuteNonQuery();
                         break;
                     case "LecturerModule":
                         dgvMain.EndEdit();
