@@ -140,7 +140,7 @@ AND Modules.ModuleID =1*/
                 dgvMain.DataSource = bindingSources["dataResultsAssessments"];
                 makeAssignementsInvisible();
             }
-            else if(node.Parent!=null && node.Parent.Name=="tnoModules")
+            else if(node.Parent!=null && parent.Parent!=null && node.Parent.Name=="tnoModules")
             {
                 moduleID = Int32.Parse(node.Name);
                 refreshModuleDetails();
