@@ -38,6 +38,9 @@ namespace Lecturer
 
         static private DataRow mCQRow;
         static private DataRow otherRow;
+        static private DataRow adminModuleRow;
+        static private DataRow adminStudentRow;
+        static private DataRow adminLecturerRow;
         internal static User User
         {
             get
@@ -869,6 +872,51 @@ namespace Lecturer
             foreach (DataGridViewColumn column in dgvOther.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+        }
+
+        private void btnAddData_Click(object sender, EventArgs e)
+        {
+            switch(nodeSelected)
+            {
+                case "AdminModules":
+                    adminModuleRow = dataModules.NewRow();
+                    frmAddModule ModuleForm = new frmAddModule();
+                    ModuleForm.ShowDialog();
+
+                    if (Int32.Parse(adminModuleRow[0].ToString()) != 0)
+                    {
+                        dataModules.Rows.Add(adminModuleRow);
+
+                        dgvMain.DataSource = dataModules;
+                    }
+                    break;
+                case "AdminLecturers":
+                    adminLecturerRow = dataLecturers.NewRow();
+                    frmAddLecturer LecturerForm = new frmAddLecturer();
+                    LecturerForm.ShowDialog();
+
+                    if (Int32.Parse(adminLecturerRow[0].ToString()) != 0)
+                    {
+                        dataLecturers.Rows.Add(adminLecturerRow);
+
+                        dgvMain.DataSource = dataLecturers;
+                    }
+                    break;
+                case "AdminStudents":
+                    adminStudentRow = dataStudents.NewRow();
+                    frmAddStudent StudentForm = new frmAddStudent();
+                    StudentForm.ShowDialog();
+
+                    if (Int32.Parse(adminStudentRow[0].ToString()) != 0)
+                    {
+                        dataStudents.Rows.Add(adminStudentRow);
+
+                        dgvMain.DataSource = dataStudents;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
