@@ -117,6 +117,7 @@ namespace Lecturer
                     makeAssignementsInvisible();
                     nodeSelected = "LecturerResultsOther";
                     lblWarning.Text = "";
+                    disableSorting();
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
@@ -149,7 +150,7 @@ namespace Lecturer
                         dgvMain.Columns.Add("Result", "Result (%)");
                         dgvMain.Columns["Result"].ReadOnly = true;
                     }
-
+                    disableSorting();
                     checkNumberOfQs();
                 }
             }
@@ -160,6 +161,7 @@ namespace Lecturer
                 refreshModuleDetails();
                 nodeSelected = "LecturerModule";
                 btnAddData.Enabled = false;
+                disableSorting();
             }
 
         }
@@ -185,6 +187,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                disableSorting();
             }
             else if (node.Name == "tnoModules")
             {
@@ -197,6 +200,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                disableSorting();
             }
             else if (node.Name == "tnoLecturers")
             {
@@ -209,6 +213,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                disableSorting();
             }
             else if (node.Name == "tnoLecturersModules")
             {
@@ -392,7 +397,7 @@ namespace Lecturer
             MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
 
-            if (MCQRow["ModuleID"] != null)
+            if (Int32.Parse(MCQRow[0].ToString()) != 0)
             {
                 dataModuleMCQ.Rows.Add(MCQRow);
 
@@ -411,7 +416,7 @@ namespace Lecturer
             OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
 
-            if (OtherRow["ModuleID"] != null)
+            if (Int32.Parse(OtherRow[0].ToString()) != 0)
             {
                 dataModuleOther.Rows.Add(OtherRow);
 
@@ -462,22 +467,17 @@ namespace Lecturer
             {
                 totalMarksAvailable += Int32.Parse(dgvOther.Rows[i].Cells["Marks Available (0%-100%)"].Value.ToString());
             }
+
             if (totalMarksAvailable > 100)
             {
-                //btnSaveMCQ.Enabled = false;
-                //btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
             }
             else if (totalMarksAvailable < 100)
             {
-                //btnSaveMCQ.Enabled = false;
-                //btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
             }
             else
             {
-                //btnSaveMCQ.Enabled = true;
-                //btnSaveOthers.Enabled = true;
                 lblWarning.Text = "";
             }
         }
@@ -487,7 +487,6 @@ namespace Lecturer
             dataModule = getData("SELECT * " +
                            "FROM Modules " +
                            "WHERE ModuleID = " + moduleID, "dataModule");
-
             dgvMain.AutoGenerateColumns = true;
             dgvMain.DataSource = bindingSources["dataModule"];
 
@@ -501,10 +500,9 @@ namespace Lecturer
                                             "AND Modules.ModuleID =" + moduleID, "dataModuleMCQ");
             dgvMCQ.AutoGenerateColumns = true;
             dgvMCQ.DataSource = bindingSources["dataModuleMCQ"];
-            /*dgvMCQ.Columns[2].HeaderText = "Number Of Questions";
-            dgvMCQ.Columns[3].HeaderText = "Marks Per Question";
-            dgvMCQ.Columns[4].HeaderText = "Negative Marking?";
-            dgvMCQ.Columns[5].HeaderText = "Marks Available (0%-100%)";*/
+            dgvMain.Columns["Name"].ReadOnly = false;
+            dgvMain.Columns["ModuleID"].ReadOnly = true;
+            dgvMain.Columns["Code"].ReadOnly = false;
 
             dataModuleOther = getData("SELECT Other_Assessments.ModuleID, Other_Assessments.AssessmentID, " +
                                 "Other_Assessments.MarksAvailable AS 'Marks Available (0%-100%)', Other_Assessments.Type " +
