@@ -392,7 +392,7 @@ namespace Lecturer
             MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
 
-            if ((int)MCQRow["ModuleID"] != 0)
+            if (Int32.Parse(OtherRow["ModuleID"].ToString()) != 0)
             {
                 dataModuleMCQ.Rows.Add(MCQRow);
 
@@ -411,7 +411,7 @@ namespace Lecturer
             OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
 
-            if ((int)OtherRow["ModuleID"] != 0)
+            if (Int32.Parse(OtherRow["ModuleID"].ToString()) != 0)
             {
                 dataModuleOther.Rows.Add(OtherRow);
 
@@ -464,20 +464,20 @@ namespace Lecturer
             }
             if (totalMarksAvailable > 100)
             {
-                btnSaveMCQ.Enabled = false;
-                btnSaveOthers.Enabled = false;
+                //btnSaveMCQ.Enabled = false;
+                //btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are greater than 100 - modify one of the assignements or MCQs";
             }
             else if (totalMarksAvailable < 100)
             {
-                btnSaveMCQ.Enabled = false;
-                btnSaveOthers.Enabled = false;
+                //btnSaveMCQ.Enabled = false;
+                //btnSaveOthers.Enabled = false;
                 lblWarning.Text = "Total marks available (" + totalMarksAvailable + ") are less than 100 - modify one of the assignements or MCQs";
             }
             else
             {
-                btnSaveMCQ.Enabled = true;
-                btnSaveOthers.Enabled = true;
+                //btnSaveMCQ.Enabled = true;
+                //btnSaveOthers.Enabled = true;
                 lblWarning.Text = "";
             }
         }
@@ -695,33 +695,49 @@ namespace Lecturer
 
         private void btnSaveMCQ_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (totalMarksAvailable == 100)
             {
-                dgvMCQ.EndEdit();
-                bindingSources["dataModuleMCQ"].EndEdit();
-                dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
-                dgvOther.EndEdit();
-                bindingSources["dataModuleOther"].EndEdit();
-                dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
-                clearLecturerTree();
-                populateLecturerTree();
+                DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    dgvMCQ.EndEdit();
+                    bindingSources["dataModuleMCQ"].EndEdit();
+                    dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
+                    dgvOther.EndEdit();
+                    bindingSources["dataModuleOther"].EndEdit();
+                    dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
+                    clearLecturerTree();
+                    populateLecturerTree();
+                }
+            }
+            else 
+            {
+                MessageBox.Show("Check total marks available!", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSaveOthers_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (totalMarksAvailable == 100)
             {
-                dgvMCQ.EndEdit();
-                bindingSources["dataModuleMCQ"].EndEdit();
-                dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
-                dgvOther.EndEdit();
-                bindingSources["dataModuleOther"].EndEdit();
-                dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
-                clearLecturerTree();
-                populateLecturerTree();
+                DialogResult dialogResult = MessageBox.Show("Do you want to overwrite data?", "Save?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    dgvMCQ.EndEdit();
+                    bindingSources["dataModuleMCQ"].EndEdit();
+                    dataAdapters["dataModuleMCQ"].Update((DataTable)bindingSources["dataModuleMCQ"].DataSource);
+                    dgvOther.EndEdit();
+                    bindingSources["dataModuleOther"].EndEdit();
+                    dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
+                    clearLecturerTree();
+                    populateLecturerTree();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Check total marks available!", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
