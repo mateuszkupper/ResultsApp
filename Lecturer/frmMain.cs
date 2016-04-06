@@ -187,6 +187,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                dgvMain.Columns["StudentID"].ReadOnly = true;
                 disableSorting();
             }
             else if (node.Name == "tnoModules")
@@ -200,6 +201,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                dgvMain.Columns["ModuleID"].ReadOnly = true;
                 disableSorting();
             }
             else if (node.Name == "tnoLecturers")
@@ -213,6 +215,7 @@ namespace Lecturer
                 btnAddData.Enabled = true;
                 dgvMain.AllowUserToDeleteRows = true;
                 lblWarning.Text = "";
+                dgvMain.Columns["LecturerID"].ReadOnly = true;
                 disableSorting();
             }
             else if (node.Name == "tnoLecturersModules")

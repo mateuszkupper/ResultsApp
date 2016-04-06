@@ -51,17 +51,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
+    <Compile Include="frmAddLecturer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddLecturer.Designer.cs">
+      <DependentUpon>frmAddLecturer.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAddMCQ.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAddMCQ.Designer.cs">
       <DependentUpon>frmAddMCQ.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAddModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddModule.Designer.cs">
+      <DependentUpon>frmAddModule.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAddOther.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAddOther.Designer.cs">
       <DependentUpon>frmAddOther.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddStudent.Designer.cs">
+      <DependentUpon>frmAddStudent.cs</DependentUpon>
     </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
@@ -78,11 +96,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+    <EmbeddedResource Include="frmAddLecturer.resx">
+      <DependentUpon>frmAddLecturer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAddMCQ.resx">
       <DependentUpon>frmAddMCQ.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAddModule.resx">
+      <DependentUpon>frmAddModule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAddOther.resx">
       <DependentUpon>frmAddOther.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddStudent.resx">
+      <DependentUpon>frmAddStudent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
