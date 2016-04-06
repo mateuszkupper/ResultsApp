@@ -392,7 +392,7 @@ namespace Lecturer
             MCQForm.ModuleID = moduleID;
             MCQForm.ShowDialog();
 
-            if (Int32.Parse(OtherRow["ModuleID"].ToString()) != 0)
+            if (MCQRow["ModuleID"] != null)
             {
                 dataModuleMCQ.Rows.Add(MCQRow);
 
@@ -411,7 +411,7 @@ namespace Lecturer
             OtherForm.ModuleID = moduleID;
             OtherForm.ShowDialog();
 
-            if (Int32.Parse(OtherRow["ModuleID"].ToString()) != 0)
+            if (OtherRow["ModuleID"] != null)
             {
                 dataModuleOther.Rows.Add(OtherRow);
 
@@ -852,6 +852,22 @@ namespace Lecturer
             if (nodeSelected == "LecturerModuleMCQ")
             {
                 checkNumberOfQs();
+            }
+        }
+
+        private void disableSorting() 
+        {
+            foreach (DataGridViewColumn column in dgvMain.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            foreach (DataGridViewColumn column in dgvMCQ.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            foreach (DataGridViewColumn column in dgvOther.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
         }
     }

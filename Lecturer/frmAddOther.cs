@@ -53,7 +53,7 @@ namespace Lecturer
 
                 frmMain.OtherRow["ModuleID"] = ModuleID;
                 frmMain.OtherRow["Type"] = Type;
-                frmMain.OtherRow["MarksAvailable"] = MarksAvailable;
+                frmMain.OtherRow["Marks Available (0%-100%)"] = MarksAvailable;
                 this.Close();
             }
             else if (!isFilled())

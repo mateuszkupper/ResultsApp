@@ -54,10 +54,10 @@ namespace Lecturer
                 Boolean NegativeMarking = chbNegativeMarking.Checked;
 
                 frmMain.MCQRow["ModuleID"] = ModuleID;
-                frmMain.MCQRow["NoOfQs"] = NoOfQs;
-                frmMain.MCQRow["MarksPerQ"] = MarksPerQ;
-                frmMain.MCQRow["NegativeMarking"] = NegativeMarking;
-                frmMain.MCQRow["MarksAvailable"] = MarksAvailable;
+                frmMain.MCQRow["Number Of Questions"] = NoOfQs;
+                frmMain.MCQRow["Marks Per Question"] = MarksPerQ;
+                frmMain.MCQRow["Negative Marking?"] = NegativeMarking;
+                frmMain.MCQRow["Marks Available (0%-100%)"] = MarksAvailable;
 
                 this.Close();
             }
