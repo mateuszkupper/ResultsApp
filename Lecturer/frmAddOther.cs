@@ -41,23 +41,53 @@ namespace Lecturer
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            String Type = cmbType.Text;
-            int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
-
-            if(Type == "End of semester exam")
+            if (isFilled() && isValid())
             {
-                Type = "EndOfSemester";
-            }
+                String Type = cmbType.Text;
+                int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
 
-            frmMain.OtherRow["ModuleID"] = ModuleID;
-            frmMain.OtherRow["Type"] = Type;
-            frmMain.OtherRow["MarksAvailable"] = MarksAvailable;
-            this.Close();
+                if (Type == "End of semester exam")
+                {
+                    Type = "EndOfSemester";
+                }
+
+                frmMain.OtherRow["ModuleID"] = ModuleID;
+                frmMain.OtherRow["Type"] = Type;
+                frmMain.OtherRow["MarksAvailable"] = MarksAvailable;
+                this.Close();
+            }
+            else if (!isFilled())
+            {
+                MessageBox.Show("Fill in all fields!", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else if (!isValid())
+            {
+                MessageBox.Show("Marks available needs to be a number!", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                MessageBox.Show("Marks available need to be a number! \n Fill in all fields!", "Validation",
+                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            frmMain.OtherRow["ModuleID"] = 0;
             this.Close();
+        }
+
+        private bool isFilled()
+        {
+            return (cmbType.Text != "" && txtMarksAvailable.Text != "") ? true : false;
+        }
+
+        private bool isValid()
+        {
+            int x = 0;
+            return (Int32.TryParse(txtMarksAvailable.Text, out x)) ? true : false;
         }
     }
 }

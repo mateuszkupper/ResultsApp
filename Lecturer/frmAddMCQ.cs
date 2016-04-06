@@ -46,37 +46,57 @@ namespace Lecturer
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            int NoOfQs = Int32.Parse(txtNoOfQs.Text);
-            int MarksPerQ = Int32.Parse(txtMarksPerQuestion.Text);
-            int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
-            Boolean NegativeMarking = chbNegativeMarking.Checked;
+            if (isFilled() && isValid())
+            {
+                int NoOfQs = Int32.Parse(txtNoOfQs.Text);
+                int MarksPerQ = Int32.Parse(txtMarksPerQuestion.Text);
+                int MarksAvailable = Int32.Parse(txtMarksAvailable.Text);
+                Boolean NegativeMarking = chbNegativeMarking.Checked;
 
-            //frmMain.MCQRownull, ModuleID, NoOfQs, MarksPerQ, NegativeMarking, MarksAvailable;
-            frmMain.MCQRow["ModuleID"] = ModuleID;
-            frmMain.MCQRow["NoOfQs"] = NoOfQs;
-            frmMain.MCQRow["MarksPerQ"] = MarksPerQ;
-            frmMain.MCQRow["NegativeMarking"] = NegativeMarking;
-            frmMain.MCQRow["MarksAvailable"] = MarksAvailable;
-            /*MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
-                                            ";Database=" + connection.DB +
-                                            ";Uid=" + connection.UID + ";" +
-                                            "Password=" + connection.Password + ";");
+                frmMain.MCQRow["ModuleID"] = ModuleID;
+                frmMain.MCQRow["NoOfQs"] = NoOfQs;
+                frmMain.MCQRow["MarksPerQ"] = MarksPerQ;
+                frmMain.MCQRow["NegativeMarking"] = NegativeMarking;
+                frmMain.MCQRow["MarksAvailable"] = MarksAvailable;
 
-            MySqlCommand command = conn.CreateCommand();
-            command.CommandText = "INSERT INTO MCQs (ModuleID, NoOfQs, MarksPerQ," +
-                                    "NegativeMarking, MArksAvailable) VALUES (" + ModuleID +
-                                    ", " + NoOfQs + ", " + MarksPerQ + ", " +
-                                    NegativeMarking + ", " + MarksAvailable + ")";
-            conn.Open();
-            command.ExecuteNonQuery();*/
-
-            //frmMain.dgv
-            this.Close();
+                this.Close();
+            }
+            else if(!isFilled())
+            {
+                MessageBox.Show("Fill in all fields!", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else if(!isValid())
+            {
+                MessageBox.Show("All values need to be numbers!", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                MessageBox.Show("All values need to be numbers! \n Fill in all fields!", "Validation",
+                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            frmMain.MCQRow["ModuleID"] = 0;
             this.Close();
+        }
+
+        private bool isFilled()
+        {
+            return (txtNoOfQs.Text != "" &&
+                txtMarksPerQuestion.Text != "" &&
+                txtMarksAvailable.Text != "") ? true : false;
+        }
+
+        private bool isValid()
+        {
+            int x = 0;
+            return (Int32.TryParse(txtNoOfQs.Text, out x) &&
+                Int32.TryParse(txtMarksPerQuestion.Text, out x) &&
+                Int32.TryParse(txtMarksAvailable.Text, out x)) ? true : false;
         }
     }
 }
