@@ -18,6 +18,7 @@ namespace Lecturer
         private Connection connection = new Connection();
         private int moduleID;
         private int MCQID = 0;
+        private int otherID = 0;
         private Dictionary<String, MySqlDataAdapter> dataAdapters = new Dictionary<String, MySqlDataAdapter>();
         private Dictionary<String, BindingSource> bindingSources = new Dictionary<string, BindingSource>();
         private Dictionary<String, MySqlCommandBuilder> cmdBuilders = new Dictionary<string, MySqlCommandBuilder>();
@@ -90,18 +91,25 @@ namespace Lecturer
             {
                 if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text != "MCQ")
                 {
-                    dataResultsAssessments = getData("SELECT Stud_Mod.StudentID, t.Result " +
+                    dataResultsAssessments = getData("SELECT x.Name, x.StudentID, t.Result " +
                                 "FROM (SELECT Other_Assessments_Results.Result, Other_Assessments_Results.StudentID " +
                                 "FROM Other_Assessments_Results " +
                                 "WHERE Other_Assessments_Results.AssessmentID = " + node.Name + ") t " +
-                                "RIGHT JOIN Stud_Mod ON Stud_Mod.StudentID = t.StudentID " +
-                                "WHERE Stud_Mod.ModuleID = " + node.Parent.Name,
+                                "RIGHT JOIN (SELECT Stud_Mod.StudentID, Students.Name, Stud_Mod.ModuleID " +
+                                                    "FROM Students, Stud_Mod " +
+                                                    "WHERE Students.StudentID = Stud_Mod.StudentID) AS x " + 
+                                "ON x.StudentID = t.StudentID " +
+                                "WHERE x.ModuleID = " + node.Parent.Name,
                                 "dataResultsAssessments");
 
+                    otherID = Int32.Parse(node.Name);
                     dgvMain.AutoGenerateColumns = true;
-                    dgvMain.DataSource = bindingSources["dataResultsAssessments"];
+                    btnAddData.Enabled = false;
+                    dgvMain.DataSource = dataResultsAssessments;
+                    dgvMain.Columns["StudentID"].ReadOnly = true;
+                    dgvMain.Columns["Name"].ReadOnly = true;
                     makeAssignementsInvisible();
-                    nodeSelected = "LecturerResults";
+                    nodeSelected = "LecturerResultsOther";
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
@@ -113,8 +121,8 @@ namespace Lecturer
                                                     "FROM MCQs_Results " +
                                                     "WHERE MCQs_Results.MCQID = " + node.Name + ") t " +
                                                     "RIGHT JOIN (SELECT Stud_Mod.StudentID, Students.Name, Stud_Mod.ModuleID " +
-                                                    "FROM Students, Stud_Mod " +
-                                                    "WHERE Students.StudentID = Stud_Mod.StudentID) AS x " +
+                                                            "FROM Students, Stud_Mod " +
+                                                            "WHERE Students.StudentID = Stud_Mod.StudentID) AS x " +
                                                     "ON x.StudentID = t.StudentID " +
                                                     "WHERE x.ModuleID = " + node.Parent.Name,
                                                     "dataResultsAssessments");
@@ -122,8 +130,11 @@ namespace Lecturer
                     MCQID = Int32.Parse(node.Name);
                     dgvMain.AutoGenerateColumns = true;
                     dgvMain.DataSource = dataResultsAssessments;
+                    dgvMain.Columns["StudentID"].ReadOnly = true;
+                    dgvMain.Columns["Name"].ReadOnly = true;
+                    btnAddData.Enabled = false;
                     makeAssignementsInvisible();
-                    nodeSelected = "LecturerResults";
+                    nodeSelected = "LecturerResultsMCQ";
                 }
             }
             if (node.Parent != null && node.Parent.Name == "tnoModules")
@@ -131,6 +142,7 @@ namespace Lecturer
                 moduleID = Int32.Parse(node.Name);
                 refreshModuleDetails();
                 nodeSelected = "LecturerModule";
+                btnAddData.Enabled = false;
             }
 
         }
@@ -149,6 +161,7 @@ namespace Lecturer
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataStudents"];
                 nodeSelected = "AdminStudents";
+                btnAddData.Enabled = true;
             }
             else if (node.Name == "tnoModules")
             {
@@ -158,6 +171,7 @@ namespace Lecturer
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataModules"];
                 nodeSelected = "AdminModules";
+                btnAddData.Enabled = true;
             }
             else if (node.Name == "tnoLecturers")
             {
@@ -167,6 +181,7 @@ namespace Lecturer
                 dgvMain.AutoGenerateColumns = true;
                 dgvMain.DataSource = bindingSources["dataLecturers"];
                 nodeSelected = "AdminLecturers";
+                btnAddData.Enabled = true;
             }
             else if (node.Name == "tnoLecturersModules")
             {
@@ -511,33 +526,74 @@ namespace Lecturer
             {
                 switch (nodeSelected)
                 {
-                    case "LecturerResults":
-                        DataTable data = (DataTable)(dgvMain.DataSource);
-                        MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
+                    case "LecturerResultsMCQ":
+                        dgvMain.EndEdit();
+                        DataTable dataMCQ = (DataTable)(dgvMain.DataSource);
+                        MySqlConnection connMCQ = new MySqlConnection("Server=" + connection.Server +
                                                         ";Database=" + connection.DB +
                                                         ";Uid=" + connection.UID + ";" +
                                                         "Password=" + connection.Password + ";");
-                        MySqlCommand command = conn.CreateCommand();
+                        MySqlCommand commandMCQ = connMCQ.CreateCommand();
                         foreach (DataGridViewRow row in dgvMain.Rows)
                         {
-                            /*
-                             "UPDATE MCQs_Results" +
-                             "SET NoOfCorrectQs = " + row.Cells['Number Of Correct Answers'] + ", " +
-                             "NoOfIncorrectQs = " + row.Cells['Number Of Incorrect Answers'] + ", " +
-                             "NoOfNotAnsweredQs = " + row.Cells['Number Of Not Answered Questions'] + " " +
-                             "WHERE StudentID = " + row.Cells['StudentID'] + " " +
-                             "AND MCQID = " + MCQID
-                             */
-                            command.CommandText =  "UPDATE MCQs_Results" +
-                                                    "SET NoOfCorrectQs = " + row.Cells["Number Of Correct Answers"].Value + ", " +
-                                                    "NoOfIncorrectQs = " + row.Cells["Number Of Incorrect Answers"].Value + ", " +
-                                                    "NoOfNotAnsweredQs = " + "4"/*row.Cells["Number Of Not Answered Questions"].Valu1e*/ + " " +
-                                                    "WHERE StudentID = " + row.Cells["StudentID"].Value + " " +
-                                                    "AND MCQID = " + MCQID;
-                            //command.Parameters.AddWithValue("?name", "h");
+                            if (row.Cells["StudentID"].Value.ToString() == String.Empty) 
+                            {
+                                row.Cells["StudentID"].Value="0";
+                            }
+                            if (row.Cells["Number Of Correct Answers"].Value.ToString() == String.Empty)
+                            {
+                                row.Cells["Number Of Correct Answers"].Value="0";
+                            }
+                            if (row.Cells["Number Of Incorrect Answers"].Value.ToString() == String.Empty)
+                            {
+                                row.Cells["Number Of Incorrect Answers"].Value="0";
+                            }
+                            if (row.Cells["Number Of Not Answered Questions"].Value.ToString() == String.Empty)
+                            {
+                                row.Cells["Number Of Not Answered Questions"].Value = "0";
+                            }
+
+                            commandMCQ.CommandText = "INSERT INTO MCQs_Results (MCQID, StudentID, NoOfCorrectQs, " +
+                                                     "NoOfIncorrectQs, NoOfNotAnsweredQs) " +
+                                                     "VALUES (" + MCQID + ", " +
+                                                     row.Cells["StudentID"].Value + ", " +
+                                                     row.Cells["Number Of Correct Answers"].Value + ", " +
+                                                     row.Cells["Number Of Incorrect Answers"].Value + ", " +
+                                                     row.Cells["Number Of Not Answered Questions"].Value + ") " +
+                                                     "ON DUPLICATE KEY UPDATE " +
+                                                     "NoOfCorrectQs = VALUES(NoOfCorrectQs), " +
+                                                     "NoOfIncorrectQs = VALUES(NoOfIncorrectQs), " +
+                                                     "NoOfNotAnsweredQs = VALUES(NoOfNotAnsweredQs); ";
+
+                            connMCQ.Open();
+                            commandMCQ.ExecuteNonQuery();
+                            connMCQ.Close();
+
                         }
-                        conn.Open();
-                        command.ExecuteNonQuery();
+                        break;
+                    case "LecturerResultsOther":
+                        dgvMain.EndEdit();
+                        DataTable dataOther = (DataTable)(dgvMain.DataSource);
+                        MySqlConnection connOther = new MySqlConnection("Server=" + connection.Server +
+                                                        ";Database=" + connection.DB +
+                                                        ";Uid=" + connection.UID + ";" +
+                                                        "Password=" + connection.Password + ";");
+                        MySqlCommand commandOther = connOther.CreateCommand();
+                        foreach (DataGridViewRow row in dgvMain.Rows)
+                        {
+                            commandOther.CommandText = "INSERT INTO Other_Assessments_Results (AssessmentID, StudentID, Result) " +
+                                                     "VALUES (" + otherID + ", " +
+                                                     row.Cells["StudentID"].Value + ", " +
+                                                     row.Cells["Result"].Value + ") " +
+                                                     "ON DUPLICATE KEY UPDATE " +
+                                                     "AssessmentID = VALUES(AssessmentID), " +
+                                                     "StudentID = VALUES(StudentID), " +
+                                                     "Result = VALUES(Result); ";
+
+                            connOther.Open();
+                            commandOther.ExecuteNonQuery();
+                            connOther.Close();
+                        }
                         break;
                     case "LecturerModule":
                         dgvMain.EndEdit();
