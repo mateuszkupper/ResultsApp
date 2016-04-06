@@ -19,6 +19,7 @@ namespace Lecturer
         private int moduleID;
         private int MCQID = 0;
         private int otherID = 0;
+        private int MCQNoOfQs = 0;
         private Dictionary<String, MySqlDataAdapter> dataAdapters = new Dictionary<String, MySqlDataAdapter>();
         private Dictionary<String, BindingSource> bindingSources = new Dictionary<string, BindingSource>();
         private Dictionary<String, MySqlCommandBuilder> cmdBuilders = new Dictionary<string, MySqlCommandBuilder>();
@@ -84,14 +85,19 @@ namespace Lecturer
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (dgvMain.Columns.Contains("Result"))
+            {
+                dgvMain.Columns.Remove("Result");
+            }
             TreeNode node = e.Node;
             TreeNode parent = node.Parent;
             int x = 0;
             if (node.Parent != null && parent.Parent != null)
             {
+                dgvMain.AllowUserToDeleteRows = false;
                 if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text != "MCQ")
                 {
-                    dataResultsAssessments = getData("SELECT x.Name, x.StudentID, t.Result " +
+                    dataResultsAssessments = getData("SELECT x.Name, x.StudentID, t.Result AS 'Result (%)' " +
                                 "FROM (SELECT Other_Assessments_Results.Result, Other_Assessments_Results.StudentID " +
                                 "FROM Other_Assessments_Results " +
                                 "WHERE Other_Assessments_Results.AssessmentID = " + node.Name + ") t " +
@@ -110,6 +116,7 @@ namespace Lecturer
                     dgvMain.Columns["Name"].ReadOnly = true;
                     makeAssignementsInvisible();
                     nodeSelected = "LecturerResultsOther";
+                    lblWarning.Text = "";
                 }
                 else if (int.TryParse(node.Name, out x) && parent.Parent.Name == "tnoModulesResults" && node.Text == "MCQ")
                 {
@@ -126,8 +133,8 @@ namespace Lecturer
                                                     "ON x.StudentID = t.StudentID " +
                                                     "WHERE x.ModuleID = " + node.Parent.Name,
                                                     "dataResultsAssessments");
-
                     MCQID = Int32.Parse(node.Name);
+                    
                     dgvMain.AutoGenerateColumns = true;
                     dgvMain.DataSource = dataResultsAssessments;
                     dgvMain.Columns["StudentID"].ReadOnly = true;
@@ -135,10 +142,20 @@ namespace Lecturer
                     btnAddData.Enabled = false;
                     makeAssignementsInvisible();
                     nodeSelected = "LecturerResultsMCQ";
+
+
+                    if (!dgvMain.Columns.Contains("Result"))
+                    {
+                        dgvMain.Columns.Add("Result", "Result (%)");
+                        dgvMain.Columns["Result"].ReadOnly = true;
+                    }
+
+                    checkNumberOfQs();
                 }
             }
             if (node.Parent != null && node.Parent.Name == "tnoModules")
             {
+                dgvMain.AllowUserToDeleteRows = false;
                 moduleID = Int32.Parse(node.Name);
                 refreshModuleDetails();
                 nodeSelected = "LecturerModule";
@@ -151,6 +168,10 @@ namespace Lecturer
 
         private void treeAdmin_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (dgvMain.Columns.Contains("Result"))
+            {
+                dgvMain.Columns.Remove("Result");
+            }
             TreeNode node = e.Node;
             makeAssignementsInvisible();
             if (node.Name == "tnoStudents")
@@ -162,6 +183,8 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataStudents"];
                 nodeSelected = "AdminStudents";
                 btnAddData.Enabled = true;
+                dgvMain.AllowUserToDeleteRows = true;
+                lblWarning.Text = "";
             }
             else if (node.Name == "tnoModules")
             {
@@ -172,6 +195,8 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataModules"];
                 nodeSelected = "AdminModules";
                 btnAddData.Enabled = true;
+                dgvMain.AllowUserToDeleteRows = true;
+                lblWarning.Text = "";
             }
             else if (node.Name == "tnoLecturers")
             {
@@ -182,14 +207,18 @@ namespace Lecturer
                 dgvMain.DataSource = bindingSources["dataLecturers"];
                 nodeSelected = "AdminLecturers";
                 btnAddData.Enabled = true;
+                dgvMain.AllowUserToDeleteRows = true;
+                lblWarning.Text = "";
             }
             else if (node.Name == "tnoLecturersModules")
             {
                 nodeSelected = "AdminLecturersModules";
+                lblWarning.Text = "";
             }
             else if (node.Name == "tnoStudentsModules")
             {
                 nodeSelected = "tnoStudentsModules";
+                lblWarning.Text = "";
             }
         }
 
@@ -427,11 +456,11 @@ namespace Lecturer
             totalMarksAvailable = 0;
             for (int i = 0; i < dgvMCQ.RowCount; i++)
             {
-                totalMarksAvailable += Int32.Parse(dgvMCQ.Rows[i].Cells["MarksAvailable"].Value.ToString());
+                totalMarksAvailable += Int32.Parse(dgvMCQ.Rows[i].Cells["Marks Available (0%-100%)"].Value.ToString());
             }
             for (int i = 0; i < dgvOther.RowCount; i++)
             {
-                totalMarksAvailable += Int32.Parse(dgvOther.Rows[i].Cells["MarksAvailable"].Value.ToString());
+                totalMarksAvailable += Int32.Parse(dgvOther.Rows[i].Cells["Marks Available (0%-100%)"].Value.ToString());
             }
             if (totalMarksAvailable > 100)
             {
@@ -462,15 +491,23 @@ namespace Lecturer
             dgvMain.AutoGenerateColumns = true;
             dgvMain.DataSource = bindingSources["dataModule"];
 
-            dataModuleMCQ = getData("SELECT MCQs.ModuleID, MCQs.MCQID, MCQs.NoOfQs, MCQs.MarksPerQ, " +
-                                            "MCQs.NegativeMarking, MCQs.MarksAvailable " +
+            dataModuleMCQ = getData("SELECT MCQs.ModuleID, MCQs.MCQID, " +
+                                            "MCQs.NoOfQs AS 'Number Of Questions', " +
+                                            "MCQs.MarksPerQ AS 'Marks Per Question', " +
+                                            "MCQs.NegativeMarking AS 'Negative Marking?', " +
+                                            "MCQs.MarksAvailable AS 'Marks Available (0%-100%)' " +
                                             "FROM MCQs, Modules " +
                                             "WHERE MCQs.ModuleID = Modules.ModuleID " +
                                             "AND Modules.ModuleID =" + moduleID, "dataModuleMCQ");
             dgvMCQ.AutoGenerateColumns = true;
             dgvMCQ.DataSource = bindingSources["dataModuleMCQ"];
+            /*dgvMCQ.Columns[2].HeaderText = "Number Of Questions";
+            dgvMCQ.Columns[3].HeaderText = "Marks Per Question";
+            dgvMCQ.Columns[4].HeaderText = "Negative Marking?";
+            dgvMCQ.Columns[5].HeaderText = "Marks Available (0%-100%)";*/
 
-            dataModuleOther = getData("SELECT Other_Assessments.ModuleID, Other_Assessments.AssessmentID, Other_Assessments.MarksAvailable, Other_Assessments.Type " +
+            dataModuleOther = getData("SELECT Other_Assessments.ModuleID, Other_Assessments.AssessmentID, " +
+                                "Other_Assessments.MarksAvailable AS 'Marks Available (0%-100%)', Other_Assessments.Type " +
                                 "FROM Other_Assessments, Modules " +
                                 "WHERE Other_Assessments.ModuleID = Modules.ModuleID " +
                                 "AND Modules.ModuleID =" + moduleID, "dataModuleOther");
@@ -528,47 +565,54 @@ namespace Lecturer
                 {
                     case "LecturerResultsMCQ":
                         dgvMain.EndEdit();
-                        DataTable dataMCQ = (DataTable)(dgvMain.DataSource);
-                        MySqlConnection connMCQ = new MySqlConnection("Server=" + connection.Server +
-                                                        ";Database=" + connection.DB +
-                                                        ";Uid=" + connection.UID + ";" +
-                                                        "Password=" + connection.Password + ";");
-                        MySqlCommand commandMCQ = connMCQ.CreateCommand();
-                        foreach (DataGridViewRow row in dgvMain.Rows)
+                        if (checkMCQMarks(MCQNoOfQs))
                         {
-                            if (row.Cells["StudentID"].Value.ToString() == String.Empty) 
+                            DataTable dataMCQ = (DataTable)(dgvMain.DataSource);
+                            MySqlConnection connMCQ = new MySqlConnection("Server=" + connection.Server +
+                                                            ";Database=" + connection.DB +
+                                                            ";Uid=" + connection.UID + ";" +
+                                                            "Password=" + connection.Password + ";");
+                            MySqlCommand commandMCQ = connMCQ.CreateCommand();
+                            foreach (DataGridViewRow row in dgvMain.Rows)
                             {
-                                row.Cells["StudentID"].Value="0";
-                            }
-                            if (row.Cells["Number Of Correct Answers"].Value.ToString() == String.Empty)
-                            {
-                                row.Cells["Number Of Correct Answers"].Value="0";
-                            }
-                            if (row.Cells["Number Of Incorrect Answers"].Value.ToString() == String.Empty)
-                            {
-                                row.Cells["Number Of Incorrect Answers"].Value="0";
-                            }
-                            if (row.Cells["Number Of Not Answered Questions"].Value.ToString() == String.Empty)
-                            {
-                                row.Cells["Number Of Not Answered Questions"].Value = "0";
-                            }
+                                if (row.Cells["StudentID"].Value.ToString() == String.Empty)
+                                {
+                                    row.Cells["StudentID"].Value = "0";
+                                }
+                                if (row.Cells["Number Of Correct Answers"].Value.ToString() == String.Empty)
+                                {
+                                    row.Cells["Number Of Correct Answers"].Value = "0";
+                                }
+                                if (row.Cells["Number Of Incorrect Answers"].Value.ToString() == String.Empty)
+                                {
+                                    row.Cells["Number Of Incorrect Answers"].Value = "0";
+                                }
+                                if (row.Cells["Number Of Not Answered Questions"].Value.ToString() == String.Empty)
+                                {
+                                    row.Cells["Number Of Not Answered Questions"].Value = "0";
+                                }
 
-                            commandMCQ.CommandText = "INSERT INTO MCQs_Results (MCQID, StudentID, NoOfCorrectQs, " +
-                                                     "NoOfIncorrectQs, NoOfNotAnsweredQs) " +
-                                                     "VALUES (" + MCQID + ", " +
-                                                     row.Cells["StudentID"].Value + ", " +
-                                                     row.Cells["Number Of Correct Answers"].Value + ", " +
-                                                     row.Cells["Number Of Incorrect Answers"].Value + ", " +
-                                                     row.Cells["Number Of Not Answered Questions"].Value + ") " +
-                                                     "ON DUPLICATE KEY UPDATE " +
-                                                     "NoOfCorrectQs = VALUES(NoOfCorrectQs), " +
-                                                     "NoOfIncorrectQs = VALUES(NoOfIncorrectQs), " +
-                                                     "NoOfNotAnsweredQs = VALUES(NoOfNotAnsweredQs); ";
+                                commandMCQ.CommandText = "INSERT INTO MCQs_Results (MCQID, StudentID, NoOfCorrectQs, " +
+                                                         "NoOfIncorrectQs, NoOfNotAnsweredQs) " +
+                                                         "VALUES (" + MCQID + ", " +
+                                                         row.Cells["StudentID"].Value + ", " +
+                                                         row.Cells["Number Of Correct Answers"].Value + ", " +
+                                                         row.Cells["Number Of Incorrect Answers"].Value + ", " +
+                                                         row.Cells["Number Of Not Answered Questions"].Value + ") " +
+                                                         "ON DUPLICATE KEY UPDATE " +
+                                                         "NoOfCorrectQs = VALUES(NoOfCorrectQs), " +
+                                                         "NoOfIncorrectQs = VALUES(NoOfIncorrectQs), " +
+                                                         "NoOfNotAnsweredQs = VALUES(NoOfNotAnsweredQs); ";
 
-                            connMCQ.Open();
-                            commandMCQ.ExecuteNonQuery();
-                            connMCQ.Close();
-
+                                connMCQ.Open();
+                                commandMCQ.ExecuteNonQuery();
+                                connMCQ.Close();
+                            }
+                        }
+                        else 
+                        {
+                            MessageBox.Show("Check total number of questions!", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         break;
                     case "LecturerResultsOther":
@@ -579,20 +623,37 @@ namespace Lecturer
                                                         ";Uid=" + connection.UID + ";" +
                                                         "Password=" + connection.Password + ";");
                         MySqlCommand commandOther = connOther.CreateCommand();
+
+                        Boolean isDataOk = true;
                         foreach (DataGridViewRow row in dgvMain.Rows)
                         {
-                            commandOther.CommandText = "INSERT INTO Other_Assessments_Results (AssessmentID, StudentID, Result) " +
-                                                     "VALUES (" + otherID + ", " +
-                                                     row.Cells["StudentID"].Value + ", " +
-                                                     row.Cells["Result"].Value + ") " +
-                                                     "ON DUPLICATE KEY UPDATE " +
-                                                     "AssessmentID = VALUES(AssessmentID), " +
-                                                     "StudentID = VALUES(StudentID), " +
-                                                     "Result = VALUES(Result); ";
+                            if (Int32.Parse(row.Cells["Result (%)"].Value.ToString()) > 100 ||
+                                (Int32.Parse(row.Cells["Result (%)"].Value.ToString()) < 0))
+                            {
+                                MessageBox.Show("Incorrect result value!", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                isDataOk = false;
+                                break;
+                            }
+                        }
 
-                            connOther.Open();
-                            commandOther.ExecuteNonQuery();
-                            connOther.Close();
+                        if (isDataOk)
+                        {
+                            foreach (DataGridViewRow row in dgvMain.Rows)
+                            {
+                                commandOther.CommandText = "INSERT INTO Other_Assessments_Results (AssessmentID, StudentID, Result) " +
+                                                         "VALUES (" + otherID + ", " +
+                                                         row.Cells["StudentID"].Value + ", " +
+                                                         row.Cells["Result (%)"].Value + ") " +
+                                                         "ON DUPLICATE KEY UPDATE " +
+                                                         "AssessmentID = VALUES(AssessmentID), " +
+                                                         "StudentID = VALUES(StudentID), " +
+                                                         "Result = VALUES(Result); ";
+
+                                connOther.Open();
+                                commandOther.ExecuteNonQuery();
+                                connOther.Close();
+                            }
                         }
                         break;
                     case "LecturerModule":
@@ -661,6 +722,120 @@ namespace Lecturer
                 dataAdapters["dataModuleOther"].Update((DataTable)bindingSources["dataModuleOther"].DataSource);
                 clearLecturerTree();
                 populateLecturerTree();
+            }
+        }
+
+        private void dgvMain_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("This value must be a number!", "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private bool checkMCQMarks(int NoOfQs)
+        {
+            Boolean isValid = true;
+            int rowNum = 0;
+            int total = 0;
+            for (int i = 0; i < dgvMain.RowCount; i++)
+            {
+                if (!String.IsNullOrEmpty(dgvMain.Rows[i].Cells["Number Of Correct Answers"].Value.ToString()) &&
+                    !String.IsNullOrEmpty(dgvMain.Rows[i].Cells["Number Of Incorrect Answers"].Value.ToString()) &&
+                    !String.IsNullOrEmpty(dgvMain.Rows[i].Cells["Number Of Not Answered Questions"].Value.ToString()))
+                {
+                    int totalQuestions = Int32.Parse(dgvMain.Rows[i].Cells["Number Of Correct Answers"].Value.ToString()) +
+                                            Int32.Parse(dgvMain.Rows[i].Cells["Number Of Incorrect Answers"].Value.ToString()) +
+                                            Int32.Parse(dgvMain.Rows[i].Cells["Number Of Not Answered Questions"].Value.ToString());
+                    if(totalQuestions>NoOfQs)
+                    {
+                        isValid = false;
+                        total = totalQuestions;
+                        rowNum = i;
+                    }
+                    else if(totalQuestions<NoOfQs)
+                    {
+                        isValid = false;
+                        rowNum = i;
+                        total = totalQuestions;
+                    }
+
+                    if (totalQuestions == 0)
+                    {
+                        isValid = true;
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                lblWarning.Text = "TOTAL NUMBER OF QUESTIONS: " + NoOfQs;
+            } else
+            {
+                rowNum += 1;
+                lblWarning.Text = "TOTAL NUMBER OF QUESTIONS: " + NoOfQs + ". Total number of questions is incorrect - row: " + 
+                    rowNum + ", number of questions: " + total;
+            }
+            return isValid;
+        }
+
+        private void checkNumberOfQs() 
+        {
+            MySqlConnection conn = new MySqlConnection("Server=" + connection.Server +
+            ";Database=" + connection.DB +
+            ";Uid=" + connection.UID + ";" +
+            "Password=" + connection.Password + ";");
+            MySqlCommand command = conn.CreateCommand();
+            command.CommandText = "SELECT NoOfQs, MarksPerQ, NegativeMarking " +
+                "FROM MCQs " +
+                "WHERE MCQID = " + MCQID;
+
+            conn.Open();
+            foreach (DataGridViewRow row in dgvMain.Rows)
+            {
+                MySqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                    while (reader.Read())
+                    {
+                        int NoOfQs = Int32.Parse(reader["NoOfQs"].ToString());
+                        int MarksPerQ = Int32.Parse(reader["MarksPerQ"].ToString());
+                        Boolean NegativeMarking = Boolean.Parse(reader["NegativeMarking"].ToString());
+                        MCQNoOfQs = NoOfQs;
+                        if (checkMCQMarks(NoOfQs) && 
+                            !String.IsNullOrEmpty(row.Cells["Number Of Correct Answers"].Value.ToString()) &&
+                            !String.IsNullOrEmpty(row.Cells["Number Of Incorrect Answers"].Value.ToString()))
+                        {
+                            int correct = Int32.Parse(row.Cells["Number Of Correct Answers"].Value.ToString());
+                            int incorrect = Int32.Parse(row.Cells["Number Of Incorrect Answers"].Value.ToString());
+                            double result = 0;
+                            if (NegativeMarking)
+                            {
+                                result = ((((double)correct * (double)MarksPerQ - (double)incorrect) / ((double)NoOfQs * (double)MarksPerQ))) * 100;
+                            }
+                            else
+                            {
+                                result = (((double)correct * (double)MarksPerQ) / ((double)NoOfQs * (double)MarksPerQ)) * 100;
+                            }
+                            if(result<0)
+                            {
+                                result = 0;
+                            }
+                            row.Cells["Result"].Value = Math.Round(result, 2);
+                        }
+                    }
+                }
+                finally
+                {
+                    reader.Close();
+                }
+            }
+            conn.Close();
+        }
+
+        private void dgvMain_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (nodeSelected == "LecturerModuleMCQ")
+            {
+                checkNumberOfQs();
             }
         }
     }
