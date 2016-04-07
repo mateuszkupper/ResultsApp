@@ -22,18 +22,14 @@ namespace Lecturer
         {
             if (isFilled() && isValid())
             {
-                int Semester = Int32.Parse(txtSemester.Text);
-                int Credits = Int32.Parse(txtCredits.Text);
-                String Description = rtxtDescription.Text;
-                String Code = txtCode.Text;
+                int Year = Int32.Parse(txtYear.Text);
                 String Name = txtName.Text;
+                String Course = txtCourse.Text;
 
-                frmMain.AdminModuleRow["Name"] = Name;
-                frmMain.AdminModuleRow["Code"] = Code;
-                frmMain.AdminModuleRow["Semester"] = Semester;
-                frmMain.AdminModuleRow["Description"] = Description;
-                frmMain.AdminModuleRow["Credit"] = Credits;
-                check = Semester;
+                frmMain.AdminStudentRow["Name"] = Name;
+                frmMain.AdminStudentRow["Year"] = Year;
+                frmMain.AdminStudentRow["Course"] = Course;
+                check = Year;
                 this.Close();
             }
             else if (!isFilled())
@@ -55,29 +51,26 @@ namespace Lecturer
 
         private bool isFilled()
         {
-            return (txtSemester.Text != "" &&
-                txtCredits.Text != "" &&
-                txtCode.Text != "" &&
-                txtName.Text != "" &&
-                rtxtDescription.Text != "") ? true : false;
+            return (txtName.Text != "" &&
+                txtYear.Text != "" &&
+                txtCourse.Text != "") ? true : false;
         }
 
         private bool isValid()
         {
             int x = 0;
-            return (Int32.TryParse(txtSemester.Text, out x) &&
-                Int32.TryParse(txtCredits.Text, out x)) ? true : false;
+            return (Int32.TryParse(txtYear.Text, out x)) ? true : false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            frmMain.AdminModuleRow["Semester"] = check;
+            frmMain.AdminStudentRow["Year"] = check;
             this.Close();
         }
 
         private void frmAddModule_FormClosing(object sender, FormClosingEventArgs e)
         {
-            frmMain.AdminModuleRow["Semester"] = check;
+            frmMain.AdminStudentRow["Year"] = check;
         }
     }
 }

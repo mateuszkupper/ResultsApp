@@ -30,6 +30,11 @@
         {
             this.btnAdd = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chbAdmin = new System.Windows.Forms.CheckBox();
+            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
@@ -37,11 +42,6 @@
             this.txtDept = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.chbAdmin = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +54,7 @@
             this.btnAdd.TabIndex = 15;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // groupBox1
             // 
@@ -76,6 +77,56 @@
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lecturer details";
+            // 
+            // chbAdmin
+            // 
+            this.chbAdmin.AutoSize = true;
+            this.chbAdmin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chbAdmin.Location = new System.Drawing.Point(378, 185);
+            this.chbAdmin.Margin = new System.Windows.Forms.Padding(2);
+            this.chbAdmin.Name = "chbAdmin";
+            this.chbAdmin.Size = new System.Drawing.Size(61, 17);
+            this.chbAdmin.TabIndex = 16;
+            this.chbAdmin.Text = "Admin?";
+            this.chbAdmin.UseVisualStyleBackColor = true;
+            // 
+            // txtConfirmPassword
+            // 
+            this.txtConfirmPassword.Location = new System.Drawing.Point(372, 149);
+            this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtConfirmPassword.Name = "txtConfirmPassword";
+            this.txtConfirmPassword.PasswordChar = '*';
+            this.txtConfirmPassword.Size = new System.Drawing.Size(67, 20);
+            this.txtConfirmPassword.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(251, 152);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(91, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Confirm Password";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(141, 149);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(67, 20);
+            this.txtPassword.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 152);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Password";
             // 
             // label1
             // 
@@ -140,56 +191,7 @@
             this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = " Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(141, 149);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(67, 20);
-            this.txtPassword.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 152);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Password";
-            // 
-            // txtConfirmPassword
-            // 
-            this.txtConfirmPassword.Location = new System.Drawing.Point(372, 149);
-            this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.PasswordChar = '*';
-            this.txtConfirmPassword.Size = new System.Drawing.Size(67, 20);
-            this.txtConfirmPassword.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(251, 152);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(91, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Confirm Password";
-            // 
-            // chbAdmin
-            // 
-            this.chbAdmin.AutoSize = true;
-            this.chbAdmin.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chbAdmin.Location = new System.Drawing.Point(378, 185);
-            this.chbAdmin.Margin = new System.Windows.Forms.Padding(2);
-            this.chbAdmin.Name = "chbAdmin";
-            this.chbAdmin.Size = new System.Drawing.Size(61, 17);
-            this.chbAdmin.TabIndex = 16;
-            this.chbAdmin.Text = "Admin?";
-            this.chbAdmin.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // frmAddLecturer
             // 
@@ -201,6 +203,7 @@
             this.Controls.Add(this.btnCancel);
             this.Name = "frmAddLecturer";
             this.Text = "Add Lecturer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmAddLecturer_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

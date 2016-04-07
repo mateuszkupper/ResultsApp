@@ -916,7 +916,7 @@ namespace Lecturer
                     frmAddLecturer LecturerForm = new frmAddLecturer();
                     LecturerForm.ShowDialog();
 
-                    if (Int32.Parse(adminLecturerRow[0].ToString()) != 0)
+                    if (adminLecturerRow["Name"].ToString() != "qqq")
                     {
                         dataLecturers.Rows.Add(adminLecturerRow);
 
@@ -928,7 +928,7 @@ namespace Lecturer
                     frmAddStudent StudentForm = new frmAddStudent();
                     StudentForm.ShowDialog();
 
-                    if (Int32.Parse(adminStudentRow[0].ToString()) != 0)
+                    if (Int32.Parse(adminStudentRow["Year"].ToString()) != -1)
                     {
                         dataStudents.Rows.Add(adminStudentRow);
 
