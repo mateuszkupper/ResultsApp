@@ -1030,6 +1030,14 @@ namespace Lecturer
                         dgvMain.DataSource = dataStudents;
                     }
                     break;
+                case "AdminStudentsModules":
+                    frmAddStudentToModule StudentModuleForm = new frmAddStudentToModule();
+                    StudentModuleForm.ShowDialog();
+                    break;
+                case "AdminLecturersModules":
+                    frmAddLecturerToModule StudentLecturerForm = new frmAddLecturerToModule();
+                    StudentLecturerForm.ShowDialog();
+                    break;
                 default:
                     break;
             }

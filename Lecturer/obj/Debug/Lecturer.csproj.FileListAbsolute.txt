@@ -160,3 +160,5 @@ C:\Users\114739731\Desktop\aaa\Lecturer\obj\Debug\Lecturer.csproj.GenerateResour
 C:\Users\114739731\Downloads\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddModule.resources
 C:\Users\114739731\Downloads\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddLecturer.resources
 C:\Users\114739731\Downloads\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddStudent.resources
+C:\Users\114739731\Downloads\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddStudentToModule.resources
+C:\Users\114739731\Downloads\ResultsApp-lab\ResultsApp-lab\Lecturer\obj\Debug\Lecturer.frmAddLecturerToModule.resources
