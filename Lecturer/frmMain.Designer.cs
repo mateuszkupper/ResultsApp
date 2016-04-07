@@ -74,8 +74,6 @@
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.treeLecturer = new System.Windows.Forms.TreeView();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnDiscard = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -400,8 +398,6 @@
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.splitContainer2.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.splitContainer2.Panel2.Controls.Add(this.btnSave);
-            this.splitContainer2.Panel2.Controls.Add(this.btnDiscard);
             this.splitContainer2.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.treeView1);
@@ -455,29 +451,6 @@
             this.treeLecturer.Size = new System.Drawing.Size(357, 331);
             this.treeLecturer.TabIndex = 0;
             this.treeLecturer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
-            // btnSave
-            // 
-            this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(114, 135);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(40, 34);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnDiscard
-            // 
-            this.btnDiscard.Location = new System.Drawing.Point(102, 208);
-            this.btnDiscard.Margin = new System.Windows.Forms.Padding(2);
-            this.btnDiscard.Name = "btnDiscard";
-            this.btnDiscard.Size = new System.Drawing.Size(66, 41);
-            this.btnDiscard.TabIndex = 0;
-            this.btnDiscard.Text = "Discard Changes";
-            this.btnDiscard.UseVisualStyleBackColor = true;
-            this.btnDiscard.Click += new System.EventHandler(this.btnDiscard_Click);
             // 
             // statusStrip1
             // 
@@ -918,8 +891,6 @@
         private System.Windows.Forms.DataGridView dgvOther;
         private System.Windows.Forms.DataGridView dgvMCQ;
         private System.Windows.Forms.Label lblWarninga;
-        private System.Windows.Forms.Button btnDiscard;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ToolStrip toolData;
         private System.Windows.Forms.DataGridView dgvMain;
         private System.Windows.Forms.SplitContainer splitContainer5;

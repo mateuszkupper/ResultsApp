@@ -34,6 +34,8 @@ namespace Lecturer
         static private DataTable dataStudents;
         static private DataTable dataModules;
         static private DataTable dataLecturers;
+        static private DataTable dataLecturersModules;
+        static private DataTable dataStudentsModules;
         #endregion
 
         static private DataRow mCQRow;
@@ -241,14 +243,38 @@ namespace Lecturer
                 dgvMain.Columns["LecturerID"].ReadOnly = true;
                 disableSorting();
             }
-            else if (node.Name == "tnoLecturersModules")
+            else if (node.Parent != null && node.Parent.Name == "tnoLecturersModules")
             {
+                dataLecturersModules = getData("SELECT Lecturers.Name, Lec_Mod.LecturerID " +
+                                                "FROM Lecturers, Lec_Mod " +
+                                                "WHERE Lec_Mod.ModuleID = " + node.Name + " " +
+                                                "AND Lec_Mod.LecturerID = Lecturers.LecturerID", "dataLecturersModules");
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataLecturersModules;
+                btnAddData.Enabled = true;
+                dgvMain.AllowUserToDeleteRows = true;
+                lblWarning.Text = "";
+                dgvMain.Columns["Name"].ReadOnly = true;
+                dgvMain.Columns["LecturerID"].ReadOnly = true;
                 nodeSelected = "AdminLecturersModules";
                 lblWarning.Text = "";
             }
-            else if (node.Name == "tnoStudentsModules")
+            else if (node.Parent != null && node.Parent.Name == "tnoStudentsModules")
             {
-                nodeSelected = "tnoStudentsModules";
+                dataStudentsModules = getData("SELECT Students.Name, Stud_Mod.StudentID " +
+                                                "FROM Students, Stud_Mod " +
+                                                "WHERE Stud_Mod.ModuleID = " + node.Name + " " +
+                                                "AND Stud_Mod.StudentID = Students.StudentID", "dataStudentsModules");
+
+                dgvMain.AutoGenerateColumns = true;
+                dgvMain.DataSource = dataStudentsModules;
+                btnAddData.Enabled = true;
+                dgvMain.AllowUserToDeleteRows = true;
+                lblWarning.Text = "";
+                dgvMain.Columns["Name"].ReadOnly = true;
+                dgvMain.Columns["StudentID"].ReadOnly = true;
+                nodeSelected = "AdminStudentsModules";
                 lblWarning.Text = "";
             }
         }
@@ -284,6 +310,7 @@ namespace Lecturer
                 if (user.IsAdmin)
                 {
                     splitContainer2.Panel2.Enabled = true;
+                    populateAdminTree();
                 }
                 populateLecturerTree();
             }
@@ -363,6 +390,26 @@ namespace Lecturer
 
         }
 
+        private void populateAdminTree()
+        {
+            DataTable treeConnDataModules = getData("SELECT Code, Name, ModuleID " +
+                                    "FROM Modules", "treeAModules");
+
+            foreach (DataRow rowModules in treeConnDataModules.Rows)
+            {
+                TreeNode nodeAdminModules = treeAdmin.Nodes["tnoLecturersModules"].Nodes.Add(rowModules["Code"].ToString() +
+                     " - " + rowModules["Name"].ToString());
+                nodeAdminModules.Name = rowModules["ModuleID"].ToString();
+            }
+
+
+            foreach (DataRow rowModules in treeConnDataModules.Rows)
+            {
+                TreeNode nodeAdminModules = treeAdmin.Nodes["tnoStudentsModules"].Nodes.Add(rowModules["Code"].ToString() +
+                     " - " + rowModules["Name"].ToString());
+                nodeAdminModules.Name = rowModules["ModuleID"].ToString();
+            }
+        }
 
 
         private DataTable getData(String query, String name)
