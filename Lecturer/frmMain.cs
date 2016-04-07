@@ -245,6 +245,7 @@ namespace Lecturer
             }
             else if (node.Parent != null && node.Parent.Name == "tnoLecturersModules")
             {
+                moduleID = Int32.Parse(node.Name);
                 dataLecturersModules = getData("SELECT Lecturers.Name, Lec_Mod.LecturerID " +
                                                 "FROM Lecturers, Lec_Mod " +
                                                 "WHERE Lec_Mod.ModuleID = " + node.Name + " " +
@@ -262,6 +263,7 @@ namespace Lecturer
             }
             else if (node.Parent != null && node.Parent.Name == "tnoStudentsModules")
             {
+                moduleID = Int32.Parse(node.Name);
                 dataStudentsModules = getData("SELECT Students.Name, Stud_Mod.StudentID " +
                                                 "FROM Students, Stud_Mod " +
                                                 "WHERE Stud_Mod.ModuleID = " + node.Name + " " +
@@ -755,8 +757,54 @@ namespace Lecturer
                         populateLecturerTree();
                         break;
                     case "AdminLecturersModules":
+                        dgvMain.EndEdit();
+                        DataTable dataLecturersModules = (DataTable)(dgvMain.DataSource);
+                        MySqlConnection connLecturersModules = new MySqlConnection("Server=" + connection.Server +
+                                                        ";Database=" + connection.DB +
+                                                        ";Uid=" + connection.UID + ";" +
+                                                        "Password=" + connection.Password + ";");
+                        MySqlCommand commandLecturersModules = connLecturersModules.CreateCommand();
+                        MySqlCommand commandLecturersDelete = connLecturersModules.CreateCommand();
+                        commandLecturersDelete.CommandText = "DELETE FROM Lec_Mod " +
+                                                             "WHERE ModuleID = " + moduleID;
+                        connLecturersModules.Open();
+                        commandLecturersDelete.ExecuteNonQuery();
+                        connLecturersModules.Close();
+                        foreach (DataGridViewRow row in dgvMain.Rows)
+                        {
+                            commandLecturersModules.CommandText = "INSERT INTO Lec_Mod (ModuleID, LecturerID) " +
+                                                     "VALUES (" + moduleID + ", " +
+                                                     row.Cells["LecturerID"].Value + "); ";
+
+                            connLecturersModules.Open();
+                            commandLecturersModules.ExecuteNonQuery();
+                            connLecturersModules.Close();
+                        }
                         break;
                     case "AdminStudentsModules":
+                        dgvMain.EndEdit();
+                        DataTable dataStudentsModules = (DataTable)(dgvMain.DataSource);
+                        MySqlConnection connStudentsModules = new MySqlConnection("Server=" + connection.Server +
+                                                        ";Database=" + connection.DB +
+                                                        ";Uid=" + connection.UID + ";" +
+                                                        "Password=" + connection.Password + ";");
+                        MySqlCommand commandStudentsModules = connStudentsModules.CreateCommand();
+                        MySqlCommand commandStudentsDelete = connStudentsModules.CreateCommand();
+                        commandStudentsDelete.CommandText = "DELETE FROM Stud_Mod " +
+                                                             "WHERE ModuleID = " + moduleID;
+                        connStudentsModules.Open();
+                        commandStudentsDelete.ExecuteNonQuery();
+                        connStudentsModules.Close();
+                        foreach (DataGridViewRow row in dgvMain.Rows)
+                        {
+                            commandStudentsModules.CommandText = "INSERT INTO Stud_Mod (ModuleID, StudentID) " +
+                                                     "VALUES (" + moduleID + ", " +
+                                                     row.Cells["StudentID"].Value + "); ";
+
+                            connStudentsModules.Open();
+                            commandStudentsModules.ExecuteNonQuery();
+                            connStudentsModules.Close();
+                        }
                         break;
                     default:
                         break;
