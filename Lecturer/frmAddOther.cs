@@ -15,7 +15,7 @@ namespace Lecturer
     {
         private int moduleID;
         private Connection connection = new Connection();
-
+        int check = 0;
         public int ModuleID
         {
             get
@@ -54,6 +54,7 @@ namespace Lecturer
                 frmMain.OtherRow["ModuleID"] = ModuleID;
                 frmMain.OtherRow["Type"] = Type;
                 frmMain.OtherRow["Marks Available (0%-100%)"] = MarksAvailable;
+                check = ModuleID;
                 this.Close();
             }
             else if (!isFilled())
@@ -75,7 +76,7 @@ namespace Lecturer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            frmMain.OtherRow["ModuleID"] = 0;
+            frmMain.OtherRow["ModuleID"] = check;
             this.Close();
         }
 
@@ -88,6 +89,11 @@ namespace Lecturer
         {
             int x = 0;
             return (Int32.TryParse(txtMarksAvailable.Text, out x)) ? true : false;
+        }
+
+        private void frmAddOther_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            frmMain.OtherRow["ModuleID"] = check;
         }
     }
 }

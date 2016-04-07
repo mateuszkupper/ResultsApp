@@ -15,6 +15,7 @@ namespace Lecturer
     {
         private int moduleID;
         private Connection connection = new Connection();
+        int check = 0;
 
         public int ModuleID
         {
@@ -59,6 +60,7 @@ namespace Lecturer
                 frmMain.MCQRow["Negative Marking?"] = NegativeMarking;
                 frmMain.MCQRow["Marks Available (0%-100%)"] = MarksAvailable;
 
+                check = ModuleID;
                 this.Close();
             }
             else if(!isFilled())
@@ -80,7 +82,7 @@ namespace Lecturer
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            frmMain.MCQRow["ModuleID"] = 0;
+            frmMain.MCQRow["ModuleID"] = check;
             this.Close();
         }
 
@@ -97,6 +99,11 @@ namespace Lecturer
             return (Int32.TryParse(txtNoOfQs.Text, out x) &&
                 Int32.TryParse(txtMarksPerQuestion.Text, out x) &&
                 Int32.TryParse(txtMarksAvailable.Text, out x)) ? true : false;
+        }
+
+        private void frmAddMCQ_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            frmMain.MCQRow["ModuleID"] = check;
         }
     }
 }

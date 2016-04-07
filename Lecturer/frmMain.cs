@@ -39,8 +39,28 @@ namespace Lecturer
         static private DataRow mCQRow;
         static private DataRow otherRow;
         static private DataRow adminModuleRow;
+
+        internal static DataRow AdminModuleRow
+        {
+            get { return frmMain.adminModuleRow; }
+            set { frmMain.adminModuleRow = value; }
+        }
+
         static private DataRow adminStudentRow;
+
+        internal static DataRow AdminStudentRow
+        {
+            get { return frmMain.adminStudentRow; }
+            set { frmMain.adminStudentRow = value; }
+        }
         static private DataRow adminLecturerRow;
+
+        internal static DataRow AdminLecturerRow
+        {
+            get { return frmMain.adminLecturerRow; }
+            set { frmMain.adminLecturerRow = value; }
+        }
+
         internal static User User
         {
             get
@@ -884,7 +904,7 @@ namespace Lecturer
                     frmAddModule ModuleForm = new frmAddModule();
                     ModuleForm.ShowDialog();
 
-                    if (Int32.Parse(adminModuleRow[0].ToString()) != 0)
+                    if (Int32.Parse(adminModuleRow["Semester"].ToString()) != -1)
                     {
                         dataModules.Rows.Add(adminModuleRow);
 
